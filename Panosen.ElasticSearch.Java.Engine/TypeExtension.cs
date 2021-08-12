@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace Panosen.ElasticSearch.Java.Engine
 {
+    /// <summary>
+    /// TypeExtension
+    /// </summary>
     public static class TypeExtension
     {
+        /// <summary>
+        /// ToJavaType
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="rootNamespace"></param>
+        /// <returns></returns>
         public static string ToJavaType(this Type type, string rootNamespace)
         {
             if (type.IsGenericType)

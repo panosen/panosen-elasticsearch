@@ -11,8 +11,14 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class TextFieldAttribute : FieldAttribute
     {
+        /// <summary>
+        /// Text
+        /// </summary>
         public override FieldType FieldType => FieldType.Text;
 
+        /// <summary>
+        /// text
+        /// </summary>
         public override string Type => "text";
 
         /// <summary>

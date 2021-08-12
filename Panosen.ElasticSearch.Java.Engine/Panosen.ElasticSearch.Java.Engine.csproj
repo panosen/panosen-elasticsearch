@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Panosen.CodeDom.Java.Engine" Version="0.1.0" />
+    <PackageReference Include="Panosen.CodeDom.Java.Engine" Version="0.1.1" />
     <PackageReference Include="Panosen.Language.Java" Version="1.0.0" />
     <PackageReference Include="Panosen.Reflection" Version="0.2.0" />
   </ItemGroup>

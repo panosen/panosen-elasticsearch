@@ -12,24 +12,39 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public class CharGroupTokenizerAttribute : CustomTokenizerAttribute
     {
+        /// <summary>
+        /// CharGroupTokenizerAttribute
+        /// </summary>
         public CharGroupTokenizerAttribute(string name, char[] chars) : base(name, "char_group")
         {
             this.Chars = chars;
         }
 
+        /// <summary>
+        /// CharGroupTokenizerAttribute
+        /// </summary>
         public CharGroupTokenizerAttribute(string name, CharGroupTokenizeOnChars charGroupTokenizeOnChar) : base(name, "char_group")
         {
             this.CharGroupTokenizeOnChars = charGroupTokenizeOnChar;
         }
 
+        /// <summary>
+        /// CharGroupTokenizerAttribute
+        /// </summary>
         public CharGroupTokenizerAttribute(string name, char[] chars, CharGroupTokenizeOnChars charGroupTokenizeOnChars) : base(name, "char_group")
         {
             this.Chars = chars;
             this.CharGroupTokenizeOnChars = charGroupTokenizeOnChars;
         }
 
+        /// <summary>
+        /// Chars
+        /// </summary>
         public char[] Chars { get; private set; }
 
+        /// <summary>
+        /// CharGroupTokenizeOnChars
+        /// </summary>
         public CharGroupTokenizeOnChars CharGroupTokenizeOnChars { get; set; } = CharGroupTokenizeOnChars.None;
     }
 

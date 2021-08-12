@@ -2,6 +2,9 @@
 
 namespace Panosen.ElasticSearch.Java
 {
+    /// <summary>
+    /// DocFields
+    /// </summary>
     public class DocFields
     {
         /// <summary>

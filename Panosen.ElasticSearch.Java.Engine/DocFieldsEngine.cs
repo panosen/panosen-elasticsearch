@@ -11,6 +11,9 @@ using Panosen.Reflection.Model;
 
 namespace Panosen.ElasticSearch.Java.Engine
 {
+    /// <summary>
+    /// DocFieldsEngine
+    /// </summary>
     public class DocFieldsEngine
     {
         /// <summary>
@@ -18,6 +21,9 @@ namespace Panosen.ElasticSearch.Java.Engine
         /// </summary>
         private static readonly string[] CommaAndWhitespace = new string[] { " ", "," };
 
+        /// <summary>
+        /// Generate
+        /// </summary>
         public string Generate(DocFields docFields)
         {
             return PrepareCodeFile(docFields).TransformText();

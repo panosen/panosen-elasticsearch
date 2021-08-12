@@ -12,8 +12,14 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class DoubleFieldAttribute : FieldAttribute
     {
+        /// <summary>
+        /// Double
+        /// </summary>
         public override FieldType FieldType => FieldType.Double;
 
+        /// <summary>
+        /// double
+        /// </summary>
         public override string Type => "double";
 
         /// <summary>
@@ -21,10 +27,17 @@ namespace Panosen.ElasticSearch
         /// </summary>
         public double? NullValue { get; private set; }
 
+        /// <summary>
+        /// DoubleFieldAttribute
+        /// </summary>
         public DoubleFieldAttribute()
         {
         }
 
+        /// <summary>
+        /// DoubleFieldAttribute
+        /// </summary>
+        /// <param name="nullValue"></param>
         public DoubleFieldAttribute(double nullValue)
         {
             this.NullValue = nullValue;

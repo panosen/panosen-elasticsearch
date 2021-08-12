@@ -23,8 +23,14 @@ namespace Panosen.ElasticSearch
             this.Type = type;
         }
 
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Type
+        /// </summary>
         public string Type { get; private set; }
     }
 }

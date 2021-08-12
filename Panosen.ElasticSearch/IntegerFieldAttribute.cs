@@ -12,8 +12,14 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class IntegerFieldAttribute : FieldAttribute
     {
+        /// <summary>
+        /// Integer
+        /// </summary>
         public override FieldType FieldType => FieldType.Integer;
 
+        /// <summary>
+        /// integer
+        /// </summary>
         public override string Type => "integer";
 
         /// <summary>
@@ -21,10 +27,16 @@ namespace Panosen.ElasticSearch
         /// </summary>
         public int? NullValue { get; private set; }
 
+        /// <summary>
+        /// IntegerFieldAttribute
+        /// </summary>
         public IntegerFieldAttribute()
         {
         }
 
+        /// <summary>
+        /// IntegerFieldAttribute
+        /// </summary>
         public IntegerFieldAttribute(int nullValue)
         {
             this.NullValue = nullValue;

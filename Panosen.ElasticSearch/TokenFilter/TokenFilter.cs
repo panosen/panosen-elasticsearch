@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Panosen.ElasticSearch
 {
+    /// <summary>
+    /// TokenFilter
+    /// </summary>
     public abstract class TokenFilter
     {
     }
@@ -23,8 +26,14 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class LengthTokenFilter : TokenFilter
     {
+        /// <summary>
+        /// Min
+        /// </summary>
         public int Min { get; set; }
 
+        /// <summary>
+        /// Max
+        /// </summary>
         public int Max { get; set; }
     }
 
@@ -33,17 +42,35 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class LowercaseTokenFilter : TokenFilter
     {
+        /// <summary>
+        /// Language
+        /// </summary>
         public LowercaseLanguage Language { get; set; }
     }
 
+    /// <summary>
+    /// LowercaseLanguage
+    /// </summary>
     public enum LowercaseLanguage
     {
+        /// <summary>
+        /// None
+        /// </summary>
         None,
 
+        /// <summary>
+        /// greek
+        /// </summary>
         Greek,
 
+        /// <summary>
+        /// irish
+        /// </summary>
         Irish,
 
+        /// <summary>
+        /// tukish
+        /// </summary>
         Turkish
     }
 
@@ -52,8 +79,14 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class NGramTokenFilter : TokenFilter
     {
+        /// <summary>
+        /// MinGram
+        /// </summary>
         public int MinGram { get; set; } = 1;
 
+        /// <summary>
+        /// MaxGram
+        /// </summary>
         public int MaxGram { get; set; } = 2;
     }
 }

@@ -9,6 +9,9 @@ using System.Text;
 
 namespace Panosen.ElasticSearch.Mapping.Engine
 {
+    /// <summary>
+    /// MappingsEngine
+    /// </summary>
     public class MappingsEngine
     {
         /// <summary>
@@ -16,6 +19,9 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// </summary>
         private readonly string[] CommaAndWhitespace = new string[] { " ", "," };
 
+        /// <summary>
+        /// Generate
+        /// </summary>
         public string Generate(Mappings mappings)
         {
             if (mappings == null)

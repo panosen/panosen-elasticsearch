@@ -12,8 +12,14 @@ namespace Panosen.ElasticSearch
     /// </summary>
     public sealed class LongFieldAttribute : FieldAttribute
     {
+        /// <summary>
+        /// Long
+        /// </summary>
         public override FieldType FieldType => FieldType.Long;
 
+        /// <summary>
+        /// long
+        /// </summary>
         public override string Type => "long";
 
         /// <summary>
@@ -21,10 +27,16 @@ namespace Panosen.ElasticSearch
         /// </summary>
         public long? NullValue { get; private set; }
 
+        /// <summary>
+        /// LongFieldAttribute
+        /// </summary>
         public LongFieldAttribute()
         {
         }
 
+        /// <summary>
+        /// LongFieldAttribute
+        /// </summary>
         public LongFieldAttribute(int nullValue)
         {
             this.NullValue = nullValue;

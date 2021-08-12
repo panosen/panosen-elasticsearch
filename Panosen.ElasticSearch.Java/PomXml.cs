@@ -2,6 +2,9 @@
 
 namespace Panosen.ElasticSearch.Java
 {
+    /// <summary>
+    /// PomXml
+    /// </summary>
     public class PomXml
     {
         /// <summary>

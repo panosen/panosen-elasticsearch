@@ -13,10 +13,16 @@ namespace Panosen.ElasticSearch
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class NGramTokenizerAttribute : AbstractNGramTokenizerAttribute
     {
+        /// <summary>
+        /// NGramTokenizerAttribute
+        /// </summary>
         public NGramTokenizerAttribute(string name) : base(name, "ngram")
         {
         }
 
+        /// <summary>
+        /// NGramTokenizerAttribute
+        /// </summary>
         public NGramTokenizerAttribute(string name, int minGram, int maxGram, NGramTokenChar nGramTokenChar) : base(name, minGram, maxGram, nGramTokenChar, "ngram")
         {
         }
@@ -29,21 +35,36 @@ namespace Panosen.ElasticSearch
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class EdgeNGramTokenizerAttribute : AbstractNGramTokenizerAttribute
     {
+        /// <summary>
+        /// EdgeNGramTokenizerAttribute
+        /// </summary>
         public EdgeNGramTokenizerAttribute(string name) : base(name, "edge_ngram")
         {
         }
 
+        /// <summary>
+        /// EdgeNGramTokenizerAttribute
+        /// </summary>
         public EdgeNGramTokenizerAttribute(string name, int minGram, int maxGram, NGramTokenChar nGramTokenChar) : base(name, minGram, maxGram, nGramTokenChar, "edge_ngram")
         {
         }
     }
 
+    /// <summary>
+    /// AbstractNGramTokenizerAttribute
+    /// </summary>
     public abstract class AbstractNGramTokenizerAttribute : CustomTokenizerAttribute
     {
+        /// <summary>
+        /// AbstractNGramTokenizerAttribute
+        /// </summary>
         public AbstractNGramTokenizerAttribute(string name, string type) : base(name, type)
         {
         }
 
+        /// <summary>
+        /// AbstractNGramTokenizerAttribute
+        /// </summary>
         public AbstractNGramTokenizerAttribute(string name, int minGram, int maxGram, NGramTokenChar nGramTokenChar, string type) : base(name, type)
         {
             this.MinGram = minGram;
