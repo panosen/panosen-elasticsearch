@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+    <AssemblyName>Panosen.ElasticSearch.Mapping.Engine</AssemblyName>
+    <RootNamespace>Panosen.ElasticSearch.Mapping.Engine</RootNamespace>
+    <Version>0.1.0</Version>
+    <Authors>harriszhang@live.cn</Authors>
+    <Company>harriszhang@live.cn</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DocumentationFile>bin\$(Configuration)\Panosen.ElasticSearch.Mapping.Engine.xml</DocumentationFile>
+    <PackageIcon>panosen.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/panosen/panosen-elasticsearch</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\panosen.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Panosen.ElasticSearch.Mapping\Panosen.ElasticSearch.Mapping.csproj" />
+  </ItemGroup>
+
+</Project>

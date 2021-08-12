@@ -1,0 +1,33 @@
+name: push
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore -c Release
+    - name: Test
+      run: dotnet test
+    - name: Publish Panosen.ElasticSearch
+      run: dotnet nuget push Panosen.ElasticSearch/bin/Release/Panosen.ElasticSearch.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.PANOSEN_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish Panosen.ElasticSearch.Java
+      run: dotnet nuget push Panosen.ElasticSearch.Java/bin/Release/Panosen.ElasticSearch.Java.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.PANOSEN_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish Panosen.ElasticSearch.Java.Engine
+      run: dotnet nuget push Panosen.ElasticSearch.Java.Engine/bin/Release/Panosen.ElasticSearch.Java.Engine.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.PANOSEN_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish Panosen.ElasticSearch.Mapping
+      run: dotnet nuget push Panosen.ElasticSearch.Mapping/bin/Release/Panosen.ElasticSearch.Mapping.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.PANOSEN_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish Panosen.ElasticSearch.Mapping.Engine
+      run: dotnet nuget push Panosen.ElasticSearch.Mapping.Engine/bin/Release/Panosen.ElasticSearch.Mapping.Engine.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.PANOSEN_NUGET_API_KEY}} --skip-duplicate
