@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,12 +11,12 @@ namespace Panosen.ElasticSearch.Mapping.Engine
     /// <summary>
     /// LongFiledEngine
     /// </summary>
-    public class LongFiledEngine
+    public class LongFiledEngine : FieldEngine<LongFieldAttribute>
     {
         /// <summary>
-        /// Generate
+        /// OnGenerate
         /// </summary>
-        public void Generate(DataObject dataObject, LongFieldAttribute longFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, LongFieldAttribute longFieldAttribute, PropertyInfo propertyInfo)
         {
             if (longFieldAttribute.NullValue.HasValue)
             {

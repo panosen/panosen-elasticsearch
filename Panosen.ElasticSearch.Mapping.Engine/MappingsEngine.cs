@@ -160,72 +160,9 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     break;
             }
 
-            var _properties = _doc.AddSortedDataObject(DataKey.DoubleQuotationString("properties"));
-            BuildProperties(_properties, type);
+            new PropertiesEngine().BuildProperties(_doc, type);
 
             return dataObject;
-        }
-
-
-        private FieldAttribute GetFieldAttribute(PropertyInfo field, string fieldName)
-        {
-            //处理简单类型
-            FieldAttribute fieldAttribute = field.GetCustomAttribute<FieldAttribute>(false);
-            if (fieldAttribute != null)
-            {
-                if (fieldAttribute.Name == null)
-                {
-                    fieldAttribute.Name = fieldName;
-                }
-                return fieldAttribute;
-            }
-
-            return PropertyTypeAsFieldAttribute(field.PropertyType, fieldName);
-        }
-
-        /// <summary>
-        /// 根据c#类型，推断field类型
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="fieldName"></param>
-        /// <returns></returns>
-        private FieldAttribute PropertyTypeAsFieldAttribute(Type type, string fieldName)
-        {
-            var fieldAttribute = BasicPropertyTypeAsFieldAttribute(type, fieldName);
-            if (fieldAttribute != null)
-            {
-                return fieldAttribute;
-            }
-
-            if (type.IsGenericType)
-            {
-                var genericType = type.GetGenericTypeDefinition();
-                if (genericType.FullName == "System.Collections.Generic.List`1")
-                {
-                    return BasicPropertyTypeAsFieldAttribute(type.GenericTypeArguments[0], fieldName);
-                }
-            }
-
-            return null;
-        }
-
-        private FieldAttribute BasicPropertyTypeAsFieldAttribute(Type type, string fieldName)
-        {
-            switch (type.ToString())
-            {
-                case "System.Int32":
-                    return new IntegerFieldAttribute { Name = fieldName };
-                case "System.Int64":
-                    return new LongFieldAttribute { Name = fieldName };
-                case "System.Double":
-                    return new DoubleFieldAttribute { Name = fieldName };
-                case "System.Boolean":
-                    return new BooleanFieldAttribute { Name = fieldName };
-                case "System.String":
-                    return new TextFieldAttribute { Name = fieldName };
-                default:
-                    return null;
-            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,12 +11,12 @@ namespace Panosen.ElasticSearch.Mapping.Engine
     /// <summary>
     /// KeywordFiledEngine
     /// </summary>
-    public class KeywordFiledEngine
+    public class KeywordFiledEngine : FieldEngine<KeywordFieldAttribute>
     {
         /// <summary>
-        /// Generate
+        /// OnGenerate
         /// </summary>
-        public void Generate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute, PropertyInfo propertyInfo)
         {
             dataObject.AddDataValue(DataKey.DoubleQuotationString("ignore_above"), keywordFieldAttribute.IgnoreAbove);
 

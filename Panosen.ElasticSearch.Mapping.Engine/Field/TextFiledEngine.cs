@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,12 +11,12 @@ namespace Panosen.ElasticSearch.Mapping.Engine
     /// <summary>
     /// TextFiledEngine
     /// </summary>
-    public class TextFiledEngine
+    public class TextFiledEngine : FieldEngine<TextFieldAttribute>
     {
         /// <summary>
         /// Generate
         /// </summary>
-        public void Generate(DataObject dataObject, TextFieldAttribute textFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, TextFieldAttribute textFieldAttribute, PropertyInfo propertyInfo)
         {
             if (!string.IsNullOrEmpty(textFieldAttribute.DefaultAnalyzer))
             {
