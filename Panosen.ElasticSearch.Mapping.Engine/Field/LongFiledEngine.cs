@@ -16,7 +16,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, LongFieldAttribute longFieldAttribute, PropertyInfo propertyInfo)
+        protected override void OnGenerate(DataObject dataObject, LongFieldAttribute longFieldAttribute)
         {
             if (longFieldAttribute.NullValue.HasValue)
             {

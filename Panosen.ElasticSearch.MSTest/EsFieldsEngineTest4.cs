@@ -5,6 +5,7 @@ using Panosen.ElasticSearch.Java.Engine.Engine;
 using Panosen.ElasticSearch.Mapping;
 using Panosen.ElasticSearch.Mapping.Engine;
 using Panosen.Reflection;
+using System.Collections.Generic;
 
 namespace Panosen.ElasticSearch.MSTest
 {
@@ -23,6 +24,17 @@ namespace Panosen.ElasticSearch.MSTest
             /// ÍÆ¶Ï long
             /// </summary>
             public Brand Brand { get; set; }
+
+            /// <summary>
+            /// ÍÆ¶Ï long
+            /// </summary>
+            public List<Brand> BrandList { get; set; }
+
+            /// <summary>
+            /// ÍÆ¶Ï long
+            /// </summary>
+            [NestedField]
+            public List<Brand> NestedBrandList { get; set; }
         }
 
         public class Brand
@@ -85,6 +97,16 @@ public final class BookFields {
      * Brand
      */
     public final static String BRAND = ""brand"";
+
+    /**
+     * BrandList
+     */
+    public final static String BRAND_LIST = ""brand_list"";
+
+    /**
+     * NestedBrandList
+     */
+    public final static String NESTED_BRAND_LIST = ""nested_brand_list"";
 }
 ";
         }
@@ -102,8 +124,23 @@ public final class BookFields {
             }
           }
         },
+        ""brand_list"": {
+          ""properties"": {
+            ""brand_id"": {
+              ""type"": ""integer""
+            }
+          }
+        },
         ""id"": {
           ""type"": ""integer""
+        },
+        ""nested_brand_list"": {
+          ""type"": ""nested"",
+          ""properties"": {
+            ""brand_id"": {
+              ""type"": ""integer""
+            }
+          }
         }
       }
     }

@@ -16,7 +16,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute, PropertyInfo propertyInfo)
+        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute)
         {
             dataObject.AddDataValue(DataKey.DoubleQuotationString("ignore_above"), keywordFieldAttribute.IgnoreAbove);
 

@@ -5,6 +5,7 @@ using Panosen.ElasticSearch.Java.Engine.Engine;
 using Panosen.ElasticSearch.Mapping;
 using Panosen.ElasticSearch.Mapping.Engine;
 using Panosen.Reflection;
+using System;
 
 namespace Panosen.ElasticSearch.MSTest
 {
@@ -28,6 +29,11 @@ namespace Panosen.ElasticSearch.MSTest
             /// ÍÆ¶Ï text
             /// </summary>
             public string AssumeText { get; set; }
+
+            /// <summary>
+            /// Assume Date
+            /// </summary>
+            public DateTime Timestamp { get; set; }
         }
 
         [TestMethod]
@@ -90,6 +96,11 @@ public final class BookFields {
      * AssumeText
      */
     public final static String ASSUME_TEXT = ""assume_text"";
+
+    /**
+     * Timestamp
+     */
+    public final static String TIMESTAMP = ""timestamp"";
 }
 ";
         }
@@ -114,6 +125,9 @@ public final class BookFields {
               ""ignore_above"": 256
             }
           }
+        },
+        ""timestamp"": {
+          ""type"": ""date""
         }
       }
     }
