@@ -28,13 +28,13 @@ namespace Panosen.ElasticSearch.MSTest
             /// <summary>
             /// 使用 keyword
             /// </summary>
-            [KeywordField(IgnoreAbove = 128)]
+            [KeywordField(IgnoreAbove = 128, IKAnalyzer = IKAnalyzer.IK_SMART)]
             public string UseKeyword { get; set; }
 
             /// <summary>
             /// 使用 text
             /// </summary>
-            [TextField]
+            [TextField(IKAnalyzer = IKAnalyzer.IK_MAX_WORD)]
             public string UseText { get; set; }
         }
 
@@ -101,6 +101,11 @@ public final class BookFields {
     public final static String USE_KEYWORD = ""use_keyword"";
 
     /**
+     * UseKeyword(with `ik_smart` analyzer)
+     */
+    public final static String USE_KEYWORD_IK_SMART = ""use_keyword.ik_smart"";
+
+    /**
      * UseText
      */
     public final static String USE_TEXT = ""use_text"";
@@ -109,6 +114,11 @@ public final class BookFields {
      * UseText(without analyzer)
      */
     public final static String USE_TEXT_KEYWORD = ""use_text.keyword"";
+
+    /**
+     * UseText(with `ik_max_word` analyzer)
+     */
+    public final static String USE_TEXT_IK_MAX_WORD = ""use_text.ik_max_word"";
 }
 ";
         }
@@ -125,7 +135,13 @@ public final class BookFields {
         },
         ""use_keyword"": {
           ""type"": ""keyword"",
-          ""ignore_above"": 128
+          ""ignore_above"": 128,
+          ""fields"": {
+            ""ik_smart"": {
+              ""type"": ""text"",
+              ""analyzer"": ""ik_smart""
+            }
+          }
         },
         ""use_long"": {
           ""type"": ""long""
@@ -133,6 +149,10 @@ public final class BookFields {
         ""use_text"": {
           ""type"": ""text"",
           ""fields"": {
+            ""ik_max_word"": {
+              ""type"": ""text"",
+              ""analyzer"": ""ik_max_word""
+            },
             ""keyword"": {
               ""type"": ""keyword"",
               ""ignore_above"": 256

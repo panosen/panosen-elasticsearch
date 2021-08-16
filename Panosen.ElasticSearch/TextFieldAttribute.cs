@@ -22,12 +22,6 @@ namespace Panosen.ElasticSearch
         public override string Type => "text";
 
         /// <summary>
-        /// `ignore_above`
-        /// https://www.elastic.co/guide/en/elasticsearch/reference/current/ignore-above.html
-        /// </summary>
-        public int KeywordIgnoreAbove { get; set; } = 256;
-
-        /// <summary>
         /// 内置分词器
         /// </summary>
         public BuiltInAnalyzer BuiltInAnalyzer { get; set; } = BuiltInAnalyzer.NONE;

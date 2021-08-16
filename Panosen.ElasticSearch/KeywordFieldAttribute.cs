@@ -31,5 +31,20 @@ namespace Panosen.ElasticSearch
         /// https://www.elastic.co/guide/en/elasticsearch/reference/6.8/null-value.html
         /// </summary>
         public string NullValue { get; set; }
+
+        /// <summary>
+        /// 内置分词器
+        /// </summary>
+        public BuiltInAnalyzer BuiltInAnalyzer { get; set; } = BuiltInAnalyzer.NONE;
+
+        /// <summary>
+        /// IK分词器
+        /// </summary>
+        public IKAnalyzer IKAnalyzer { get; set; } = IKAnalyzer.NONE;
+
+        /// <summary>
+        /// 自定义分词器
+        /// </summary>
+        public string[] CustomAnalyzer { get; set; }
     }
 }

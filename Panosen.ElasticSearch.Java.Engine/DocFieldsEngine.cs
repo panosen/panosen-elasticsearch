@@ -17,19 +17,9 @@ namespace Panosen.ElasticSearch.Java.Engine
     public class DocFieldsEngine
     {
         /// <summary>
-        /// 用于拆分枚举
-        /// </summary>
-        private static readonly string[] CommaAndWhitespace = new string[] { " ", "," };
-
-        /// <summary>
         /// Generate
         /// </summary>
         public string Generate(DocFields docFields)
-        {
-            return PrepareCodeFile(docFields).TransformText();
-        }
-
-        private CodeFile PrepareCodeFile(DocFields docFields)
         {
             CodeFile codeFile = new CodeFile();
 
@@ -45,7 +35,7 @@ namespace Panosen.ElasticSearch.Java.Engine
 
             AddProperty(codeClass, docFields);
 
-            return codeFile;
+            return codeFile.TransformText();
         }
 
         private void AddProperty(CodeClass codeClass, DocFields docFields)
@@ -57,22 +47,31 @@ namespace Panosen.ElasticSearch.Java.Engine
 
             foreach (var propertyNode in docFields.ClassNode.PropertyNodeList)
             {
+                bool indexMe = true;
                 if (propertyNode.Attributes != null && propertyNode.Attributes.Count > 0)
                 {
-                    var fieldAttribute = propertyNode.Attributes[0] as FieldAttribute;
-                    if (fieldAttribute != null && !fieldAttribute.Index)
+                    foreach (var attribute in propertyNode.Attributes)
                     {
-                        continue;
+                        var fieldAttribute = attribute as FieldAttribute;
+                        if (fieldAttribute != null && !fieldAttribute.Index)
+                        {
+                            indexMe = false;
+                        }
                     }
+                }
+
+                if (!indexMe)
+                {
+                    continue;
                 }
 
                 AddField(codeClass, propertyNode.Name.ToUpperCaseUnderLine(), propertyNode.Name.ToLowerCaseUnderLine(), propertyNode.Summary ?? propertyNode.Name);
 
-                ProcessTextField(codeClass, propertyNode);
+                ProcessAnalyzer(codeClass, propertyNode);
             }
         }
 
-        private void ProcessTextField(CodeClass codeClass, PropertyNode propertyNode)
+        private void ProcessAnalyzer(CodeClass codeClass, PropertyNode propertyNode)
         {
             if (propertyNode.Attributes == null || propertyNode.Attributes.Count == 0)
             {
@@ -80,29 +79,48 @@ namespace Panosen.ElasticSearch.Java.Engine
             }
 
             var textFieldAttribute = propertyNode.Attributes[0] as TextFieldAttribute;
-            if (textFieldAttribute == null)
+            if (textFieldAttribute != null)
             {
-                return;
+                //public final static String Text = "text.keyword";
+                AddField(codeClass, $"{propertyNode.Name.ToUpperCaseUnderLine()}_KEYWORD", $"{propertyNode.Name.ToLowerCaseUnderLine()}.keyword", $"{propertyNode.Summary ?? propertyNode.Name}(without analyzer)");
+
+                ProcessAnalyzer(codeClass, propertyNode, textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);
             }
 
-            //public final static String Text = "text.keyword";
-            AddField(codeClass, $"{propertyNode.Name.ToUpperCaseUnderLine()}_KEYWORD", $"{propertyNode.Name.ToLowerCaseUnderLine()}.keyword", $"{propertyNode.Summary ?? propertyNode.Name}(without analyzer)");
+            var keywordFieldAttribute = propertyNode.Attributes[0] as KeywordFieldAttribute;
+            if (keywordFieldAttribute != null)
+            {
+                ProcessAnalyzer(codeClass, propertyNode, keywordFieldAttribute.BuiltInAnalyzer, keywordFieldAttribute.IKAnalyzer, keywordFieldAttribute.CustomAnalyzer);
+            }
+        }
 
+        private void ProcessAnalyzer(CodeClass codeClass, PropertyNode propertyNode, BuiltInAnalyzer builtInAnalyzer, IKAnalyzer iKAnalyzer, string[] customAnalyzer)
+        {
             //分词器
             List<string> analyzers = new List<string>();
 
             //内置分词器
-            var builtInAnalyzers = textFieldAttribute.BuiltInAnalyzer.ToString().ToLower().Split(CommaAndWhitespace, StringSplitOptions.RemoveEmptyEntries).OrderBy(x => x).ToList();
+            var builtInAnalyzers = builtInAnalyzer
+                .ToString()
+                .ToLower()
+                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
+                .OrderBy(x => x)
+                .ToList();
             analyzers.AddRange(builtInAnalyzers);
 
             //ik分词器
-            var ikAnalyzers = textFieldAttribute.IKAnalyzer.ToString().ToLower().Split(CommaAndWhitespace, StringSplitOptions.RemoveEmptyEntries).OrderBy(x => x).ToList();
+            var ikAnalyzers = iKAnalyzer
+                .ToString()
+                .ToLower()
+                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
+                .OrderBy(x => x)
+                .ToList();
             analyzers.AddRange(ikAnalyzers);
 
             //自定义分词器
-            if (textFieldAttribute.CustomAnalyzer != null && textFieldAttribute.CustomAnalyzer.Length > 0)
+            if (customAnalyzer != null && customAnalyzer.Length > 0)
             {
-                analyzers.AddRange(textFieldAttribute.CustomAnalyzer);
+                analyzers.AddRange(customAnalyzer);
             }
 
             foreach (var analyzer in analyzers)
