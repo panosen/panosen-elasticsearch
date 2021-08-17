@@ -106,12 +106,12 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// object 
         /// </summary>
-        public static readonly string OBJECT  = "object ";
+        public static readonly string OBJECT  = "object";
 
         /// <summary>
         /// nested 
         /// </summary>
-        public static readonly string NESTED = "nested ";
+        public static readonly string NESTED = "nested";
 
         /// <summary>
         /// geo_point
@@ -121,7 +121,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// geo_shape 
         /// </summary>
-        public static readonly string GEO_SHAPE = "geo_shape ";
+        public static readonly string GEO_SHAPE = "geo_shape";
 
         /// <summary>
         /// ip
@@ -131,7 +131,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// completion 
         /// </summary>
-        public static readonly string COMPLETION = "completion ";
+        public static readonly string COMPLETION = "completion";
 
         /// <summary>
         /// token_count

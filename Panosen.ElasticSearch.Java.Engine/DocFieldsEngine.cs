@@ -33,52 +33,56 @@ namespace Panosen.ElasticSearch.Java.Engine
             codeClass.AccessModifiers = AccessModifiers.Public;
             codeClass.IsFinal = true;
 
-            AddProperty(codeClass, docFields);
+            ProcessPropertyList(codeClass, docFields);
 
             return codeFile.TransformText();
         }
 
-        private void AddProperty(CodeClass codeClass, DocFields docFields)
+        private void ProcessPropertyList(CodeClass codeClass, DocFields docFields)
         {
-            if (docFields.ClassNode.PropertyNodeList == null || docFields.ClassNode.PropertyNodeList.Count <= 0)
+            if (docFields.ClassNode.PropertyNodeList == null || docFields.ClassNode.PropertyNodeList.Count == 0)
             {
                 return;
             }
 
             foreach (var propertyNode in docFields.ClassNode.PropertyNodeList)
             {
-                bool indexMe = CalcIndexMe(propertyNode);
-                if (!indexMe)
-                {
-                    continue;
-                }
-
-                AddField(codeClass, propertyNode.Name.ToUpperCaseUnderLine(), propertyNode.Name.ToLowerCaseUnderLine(), propertyNode.Summary ?? propertyNode.Name);
-
-                ProcessAnalyzer(codeClass, propertyNode);
+                ProcessProperties(codeClass, propertyNode);
             }
         }
 
-        private static bool CalcIndexMe(PropertyNode propertyNode)
+        private void ProcessProperties(CodeClass codeClass, PropertyNode propertyNode)
         {
-            bool indexMe = true;
+            var indexMe = CalcIndexMe(propertyNode);
+            if (indexMe == Index.False)
+            {
+                return;
+            }
+
+            AddField(codeClass, propertyNode.Name.ToUpperCaseUnderLine(), propertyNode.Name.ToLowerCaseUnderLine(), propertyNode.Summary ?? propertyNode.Name);
+
+            ProcessAnalyzer(codeClass, propertyNode);
+        }
+
+        private static Index CalcIndexMe(PropertyNode propertyNode)
+        {
             if (propertyNode.Attributes == null || propertyNode.Attributes.Count <= 0)
             {
-                return indexMe;
+                return Index.None;
             }
 
             foreach (var attribute in propertyNode.Attributes)
             {
                 var fieldAttribute = attribute as FieldAttribute;
-                if (fieldAttribute == null || fieldAttribute.Index)
+                if (fieldAttribute == null)
                 {
                     continue;
                 }
 
-                indexMe = false;
+                return fieldAttribute.Index;
             }
 
-            return indexMe;
+            return Index.None;
         }
 
         private void ProcessAnalyzer(CodeClass codeClass, PropertyNode propertyNode)

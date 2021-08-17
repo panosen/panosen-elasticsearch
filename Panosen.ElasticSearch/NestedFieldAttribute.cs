@@ -15,10 +15,5 @@ namespace Panosen.ElasticSearch
         /// Nested
         /// </summary>
         public override FieldType FieldType => FieldType.NestedObject;
-
-        /// <summary>
-        /// nested
-        /// </summary>
-        public override string Type => "nested";
     }
 }

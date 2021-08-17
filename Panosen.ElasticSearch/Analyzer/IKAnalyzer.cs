@@ -16,16 +16,16 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// 未设置
         /// </summary>
-        NONE = 0,
+        None = 0,
 
         /// <summary>
         /// ik_max_word
         /// </summary>
-        IK_MAX_WORD = 1024,
+        IK_MAX_WORD = 1,
 
         /// <summary>
         /// ik_smart
         /// </summary>
-        IK_SMART = 2048
+        IK_SMART = 2
     }
 }

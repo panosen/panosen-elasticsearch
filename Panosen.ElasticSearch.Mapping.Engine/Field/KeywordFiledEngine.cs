@@ -14,6 +14,14 @@ namespace Panosen.ElasticSearch.Mapping.Engine
     public class KeywordFiledEngine : FieldEngine<KeywordFieldAttribute>
     {
         /// <summary>
+        /// OnGenerateType
+        /// </summary>
+        protected override void OnGenerateType(DataObject dataObject)
+        {
+            dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.KEYWORD));
+        }
+
+        /// <summary>
         /// OnGenerate
         /// </summary>
         protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute)
@@ -25,8 +33,8 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                 dataObject.AddDataValue(DataKey.DoubleQuotationString("null_value"), keywordFieldAttribute.NullValue);
             }
 
-            if (keywordFieldAttribute.BuiltInAnalyzer != BuiltInAnalyzer.NONE ||
-                keywordFieldAttribute.IKAnalyzer != IKAnalyzer.NONE ||
+            if (keywordFieldAttribute.BuiltInAnalyzer != BuiltInAnalyzer.None ||
+                keywordFieldAttribute.IKAnalyzer != IKAnalyzer.None ||
                 (keywordFieldAttribute.CustomAnalyzer != null && keywordFieldAttribute.CustomAnalyzer.Length > 0))
             {
                 SortedDataObject sortedDataObject = dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"));

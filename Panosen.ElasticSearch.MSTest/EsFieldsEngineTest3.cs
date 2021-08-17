@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.MSTest
             /// <summary>
             /// Ö»´æ´¢£¬²»Ë÷Òý
             /// </summary>
-            [Field(Index = false, DocValues = false)]
+            [Field(Index = Index.False, DocValues = DocValues.False)]
             public string NotIndexMe { get; set; }
 
             /// <summary>
@@ -38,7 +38,7 @@ namespace Panosen.ElasticSearch.MSTest
             /// </summary>
             [TextField(
                 IKAnalyzer = IKAnalyzer.IK_SMART | IKAnalyzer.IK_MAX_WORD,
-                BuiltInAnalyzer = BuiltInAnalyzer.SIMPLE | BuiltInAnalyzer.WHITESPACE,
+                BuiltInAnalyzer = BuiltInAnalyzer.Simple | BuiltInAnalyzer.Whitespace,
                 CustomAnalyzer = new string[] { "ngram_1_1" })]
             public string UseAnalyzer { get; set; }
 

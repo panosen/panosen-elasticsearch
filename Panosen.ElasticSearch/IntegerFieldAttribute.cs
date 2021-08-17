@@ -18,11 +18,6 @@ namespace Panosen.ElasticSearch
         public override FieldType FieldType => FieldType.Integer;
 
         /// <summary>
-        /// integer
-        /// </summary>
-        public override string Type => "integer";
-
-        /// <summary>
         /// https://www.elastic.co/guide/en/elasticsearch/reference/6.8/null-value.html
         /// </summary>
         public int? NullValue { get; private set; }

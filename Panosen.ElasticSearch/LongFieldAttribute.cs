@@ -18,11 +18,6 @@ namespace Panosen.ElasticSearch
         public override FieldType FieldType => FieldType.Long;
 
         /// <summary>
-        /// long
-        /// </summary>
-        public override string Type => "long";
-
-        /// <summary>
         /// https://www.elastic.co/guide/en/elasticsearch/reference/6.8/null-value.html
         /// </summary>
         public long? NullValue { get; private set; }

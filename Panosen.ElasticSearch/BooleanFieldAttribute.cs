@@ -17,11 +17,6 @@ namespace Panosen.ElasticSearch
         public override FieldType FieldType => FieldType.Boolean;
 
         /// <summary>
-        /// boolean
-        /// </summary>
-        public override string Type => "boolean";
-
-        /// <summary>
         /// https://www.elastic.co/guide/en/elasticsearch/reference/6.8/null-value.html
         /// </summary>
         public bool? NullValue { get; private set; }

@@ -99,6 +99,11 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                         new TextFiledEngine().Generate(dataObject, fieldAttribute as TextFieldAttribute);
                     }
                     break;
+                case FieldType.Object:
+                    {
+                        new ObjectFiledEngine().Generate(dataObject, fieldAttribute as ObjectFieldAttribute);
+                    }
+                    break;
                 case FieldType.NestedObject:
                     {
                         BuildProperties(dataObject, propertyType, nested: true, depth: depth + 1);

@@ -45,7 +45,7 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// CharGroupTokenizeOnChars
         /// </summary>
-        public CharGroupTokenizeOnChars CharGroupTokenizeOnChars { get; set; } = CharGroupTokenizeOnChars.None;
+        public CharGroupTokenizeOnChars CharGroupTokenizeOnChars { get; set; }
     }
 
     /// <summary>

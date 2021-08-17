@@ -82,11 +82,11 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// MinGram
         /// </summary>
-        public int MinGram { get; set; } = 1;
+        public int? MinGram { get; set; }
 
         /// <summary>
         /// MaxGram
         /// </summary>
-        public int MaxGram { get; set; } = 2;
+        public int? MaxGram { get; set; }
     }
 }

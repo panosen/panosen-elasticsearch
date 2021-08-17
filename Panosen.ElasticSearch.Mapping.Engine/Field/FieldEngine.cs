@@ -24,23 +24,25 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                 return;
             }
 
-            if (!string.IsNullOrEmpty(fieldAttribute.Type))
+            OnGenerateType(dataObject);
+
+            if (fieldAttribute.Index != Index.None)
             {
-                dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(fieldAttribute.Type));
+                dataObject.AddDataValue(DataKey.DoubleQuotationString("index"), fieldAttribute.Index.ToString().ToLower());
             }
 
-            if (!fieldAttribute.Index)
+            if (fieldAttribute.DocValues != DocValues.None)
             {
-                dataObject.AddDataValue(DataKey.DoubleQuotationString("index"), false);
-            }
-
-            if (!fieldAttribute.DocValues)
-            {
-                dataObject.AddDataValue(DataKey.DoubleQuotationString("doc_values"), false);
+                dataObject.AddDataValue(DataKey.DoubleQuotationString("doc_values"), fieldAttribute.DocValues.ToString().ToLower());
             }
 
             OnGenerate(dataObject, fieldAttribute);
         }
+
+        /// <summary>
+        /// OnGenerateType
+        /// </summary>
+        protected abstract void OnGenerateType(DataObject dataObject);
 
         /// <summary>
         /// OnGenerate
@@ -57,6 +59,13 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// OnGenerate
         /// </summary>
         protected override void OnGenerate(DataObject dataObject, FieldAttribute value)
+        {
+        }
+
+        /// <summary>
+        /// OnGenerateType
+        /// </summary>
+        protected override void OnGenerateType(DataObject dataObject)
         {
         }
     }

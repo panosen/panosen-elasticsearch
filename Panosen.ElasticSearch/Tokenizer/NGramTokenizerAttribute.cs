@@ -85,7 +85,7 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// token_chars es默认值是 []
         /// </summary>
-        public NGramTokenChar TokenChars { get; set; } = NGramTokenChar.None;
+        public NGramTokenChar TokenChars { get; set; }
     }
 
     /// <summary>

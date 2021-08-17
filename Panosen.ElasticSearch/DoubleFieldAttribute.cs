@@ -18,11 +18,6 @@ namespace Panosen.ElasticSearch
         public override FieldType FieldType => FieldType.Double;
 
         /// <summary>
-        /// double
-        /// </summary>
-        public override string Type => "double";
-
-        /// <summary>
         /// https://www.elastic.co/guide/en/elasticsearch/reference/6.8/null-value.html
         /// </summary>
         public double? NullValue { get; private set; }

@@ -21,22 +21,59 @@ namespace Panosen.ElasticSearch
         /// 是否索引该字段
         /// 默认值是true
         /// </summary>
-        public bool Index { get; set; } = true;
+        public Index Index { get; set; }
 
         /// <summary>
         /// 是否需要doc_values。用于排序、聚合以及脚本操作
         /// 默认值是true
         /// </summary>
-        public bool DocValues { get; set; } = true;
+        public DocValues DocValues { get; set; }
 
         /// <summary>
         /// 字段类型
         /// </summary>
         public virtual FieldType FieldType { get; }
+    }
+
+    /// <summary>
+    /// index
+    /// </summary>
+    public enum Index
+    {
+        /// <summary>
+        /// 未设置
+        /// </summary>
+        None = 0,
 
         /// <summary>
-        /// ES内部字段类型
+        /// true
         /// </summary>
-        public virtual string Type { get; }
+        True = 1,
+
+        /// <summary>
+        /// false
+        /// </summary>
+        False = 2
+    }
+
+    /// <summary>
+    /// index
+    /// </summary>
+    public enum DocValues
+    {
+        /// <summary>
+        /// 未设置
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// true
+        /// </summary>
+        True = 1,
+
+        /// <summary>
+        /// false
+        /// </summary>
+        False = 2
     }
 }

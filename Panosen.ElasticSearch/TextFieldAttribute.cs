@@ -17,19 +17,14 @@ namespace Panosen.ElasticSearch
         public override FieldType FieldType => FieldType.Text;
 
         /// <summary>
-        /// text
-        /// </summary>
-        public override string Type => "text";
-
-        /// <summary>
         /// 内置分词器
         /// </summary>
-        public BuiltInAnalyzer BuiltInAnalyzer { get; set; } = BuiltInAnalyzer.NONE;
+        public BuiltInAnalyzer BuiltInAnalyzer { get; set; }
 
         /// <summary>
         /// IK分词器
         /// </summary>
-        public IKAnalyzer IKAnalyzer { get; set; } = IKAnalyzer.NONE;
+        public IKAnalyzer IKAnalyzer { get; set; }
 
         /// <summary>
         /// 自定义分词器
@@ -52,7 +47,7 @@ namespace Panosen.ElasticSearch
         /// <param name="defaultAnalyzer">基础分析器</param>
         public TextFieldAttribute(BuiltInAnalyzer defaultAnalyzer)
         {
-            if (defaultAnalyzer == BuiltInAnalyzer.NONE)
+            if (defaultAnalyzer == BuiltInAnalyzer.None)
             {
                 return;
             }
@@ -66,7 +61,7 @@ namespace Panosen.ElasticSearch
         /// <param name="defaultAnalyzer">基础分析器</param>
         public TextFieldAttribute(IKAnalyzer defaultAnalyzer)
         {
-            if (defaultAnalyzer == IKAnalyzer.NONE)
+            if (defaultAnalyzer == IKAnalyzer.None)
             {
                 return;
             }

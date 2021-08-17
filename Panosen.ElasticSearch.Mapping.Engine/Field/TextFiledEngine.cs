@@ -14,6 +14,14 @@ namespace Panosen.ElasticSearch.Mapping.Engine
     public class TextFiledEngine : FieldEngine<TextFieldAttribute>
     {
         /// <summary>
+        /// OnGenerateType
+        /// </summary>
+        protected override void OnGenerateType(DataObject dataObject)
+        {
+            dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.TEXT));
+        }
+
+        /// <summary>
         /// Generate
         /// </summary>
         protected override void OnGenerate(DataObject dataObject, TextFieldAttribute textFieldAttribute)
