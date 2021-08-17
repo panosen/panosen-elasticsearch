@@ -108,28 +108,26 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("custom"));
             dataObject.AddDataValue(DataKey.DoubleQuotationString("tokenizer"), DataValue.DoubleQuotationString(customAnalyzerAttribute.Tokenizer));
 
+            List<string> tokenFilters = new List<string>();
+
+            var builtInTokenFilters = customAnalyzerAttribute.BuiltInTokenFilters.ToString()
+                .ToLower()
+                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(v => !"none".Equals(v))
+                .ToList();
+            tokenFilters.AddRange(builtInTokenFilters);
+
+            if (customAnalyzerAttribute.CustomTokenFilters != null && customAnalyzerAttribute.CustomTokenFilters.Length > 0)
             {
-                List<string> tokenFilters = new List<string>();
+                tokenFilters.AddRange(customAnalyzerAttribute.CustomTokenFilters);
+            }
 
-                var builtInTokenFilters = customAnalyzerAttribute.BuiltInTokenFilters.ToString()
-                    .ToLower()
-                    .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
-                    .Where(v => !"none".Equals(v))
-                    .ToList();
-                tokenFilters.AddRange(builtInTokenFilters);
-
-                if (customAnalyzerAttribute.CustomTokenFilters != null && customAnalyzerAttribute.CustomTokenFilters.Length > 0)
+            if (tokenFilters.Count > 0)
+            {
+                var dataArray = dataObject.AddDataArray(DataKey.DoubleQuotationString("filter"));
+                foreach (var item in tokenFilters)
                 {
-                    tokenFilters.AddRange(customAnalyzerAttribute.CustomTokenFilters);
-                }
-
-                if (tokenFilters.Count > 0)
-                {
-                    var dataArray = dataObject.AddDataArray(DataKey.DoubleQuotationString("filter"));
-                    foreach (var item in tokenFilters)
-                    {
-                        dataArray.AddDataValue(DataValue.DoubleQuotationString(item));
-                    }
+                    dataArray.AddDataValue(DataValue.DoubleQuotationString(item));
                 }
             }
 

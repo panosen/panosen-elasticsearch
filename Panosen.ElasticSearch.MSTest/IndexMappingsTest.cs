@@ -9,9 +9,9 @@ namespace Panosen.ElasticSearch.MSTest
     public class IndexMappingsTest
     {
         [Index(IndexName = "book-index", Aliases = new string[] { "book-alias" }, Dynamic = Dynamic.False, NumberOfShards = 1, NumberOfReplicas = 4, MappingTotalFieldsLimit = 50000)]
-        [NGramTokenizer("trigram_tokenizer", 1, 3, NGramTokenChar.LETTER | NGramTokenChar.DIGIT)]
-        [EdgeNGramTokenizer("edge_ten_tokenizer", 1, 10, NGramTokenChar.LETTER | NGramTokenChar.DIGIT)]
-        [EdgeNGramTokenizer("edge_twenty_tokenizer", 1, 20, NGramTokenChar.LETTER | NGramTokenChar.DIGIT)]
+        [NGramTokenizer("trigram_tokenizer", 1, 3, NGramTokenChar.Letter | NGramTokenChar.Digit)]
+        [EdgeNGramTokenizer("edge_ten_tokenizer", 1, 10, NGramTokenChar.Letter | NGramTokenChar.Digit)]
+        [EdgeNGramTokenizer("edge_twenty_tokenizer", 1, 20, NGramTokenChar.Letter | NGramTokenChar.Digit)]
         [PatternTokenizer("comma_tokenizer", ",")]
         [CustomAnalyzer("trigram_analyzer", "trigram_tokenizer", BuiltInTokenFilters = BuiltInTokenFilters.LOWERCASE)]
         [CustomAnalyzer("edge_ten_analyzer", "edge_ten_tokenizer", BuiltInTokenFilters = BuiltInTokenFilters.LOWERCASE)]

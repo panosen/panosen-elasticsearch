@@ -61,7 +61,7 @@ namespace Panosen.ElasticSearch
         /// es内部默认值是 false
         /// </summary>
         [Obsolete("暂不支持设置")]
-        public ALLEnabled AllEnabled { get; set; } = ALLEnabled.None;
+        public AllEnabled AllEnabled { get; set; } = AllEnabled.None;
 
         #endregion
     }
@@ -91,21 +91,21 @@ namespace Panosen.ElasticSearch
     /// "_all": { "enabled": true }
     /// es内部默认值是 false
     /// </summary>
-    public enum ALLEnabled
+    public enum AllEnabled
     {
         /// <summary>
         /// 未设置
         /// </summary>
-        None,
+        None = 0,
 
         /// <summary>
         /// 是
         /// </summary>
-        True,
+        True = 1,
 
         /// <summary>
         /// 否(默认值)
         /// </summary>
-        False
+        False = 2
     }
 }

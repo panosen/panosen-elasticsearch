@@ -47,19 +47,7 @@ namespace Panosen.ElasticSearch.Java.Engine
 
             foreach (var propertyNode in docFields.ClassNode.PropertyNodeList)
             {
-                bool indexMe = true;
-                if (propertyNode.Attributes != null && propertyNode.Attributes.Count > 0)
-                {
-                    foreach (var attribute in propertyNode.Attributes)
-                    {
-                        var fieldAttribute = attribute as FieldAttribute;
-                        if (fieldAttribute != null && !fieldAttribute.Index)
-                        {
-                            indexMe = false;
-                        }
-                    }
-                }
-
+                bool indexMe = CalcIndexMe(propertyNode);
                 if (!indexMe)
                 {
                     continue;
@@ -69,6 +57,28 @@ namespace Panosen.ElasticSearch.Java.Engine
 
                 ProcessAnalyzer(codeClass, propertyNode);
             }
+        }
+
+        private static bool CalcIndexMe(PropertyNode propertyNode)
+        {
+            bool indexMe = true;
+            if (propertyNode.Attributes == null || propertyNode.Attributes.Count <= 0)
+            {
+                return indexMe;
+            }
+
+            foreach (var attribute in propertyNode.Attributes)
+            {
+                var fieldAttribute = attribute as FieldAttribute;
+                if (fieldAttribute == null || fieldAttribute.Index)
+                {
+                    continue;
+                }
+
+                indexMe = false;
+            }
+
+            return indexMe;
         }
 
         private void ProcessAnalyzer(CodeClass codeClass, PropertyNode propertyNode)
@@ -81,7 +91,6 @@ namespace Panosen.ElasticSearch.Java.Engine
             var textFieldAttribute = propertyNode.Attributes[0] as TextFieldAttribute;
             if (textFieldAttribute != null)
             {
-                //public final static String Text = "text.keyword";
                 AddField(codeClass, $"{propertyNode.Name.ToUpperCaseUnderLine()}_KEYWORD", $"{propertyNode.Name.ToLowerCaseUnderLine()}.keyword", $"{propertyNode.Summary ?? propertyNode.Name}(without analyzer)");
 
                 ProcessAnalyzer(codeClass, propertyNode, textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);
@@ -130,7 +139,6 @@ namespace Panosen.ElasticSearch.Java.Engine
                     continue;
                 }
 
-                //public final static String Text_Analyzer = "text.analyzer";
                 AddField(codeClass, $"{propertyNode.Name.ToUpperCaseUnderLine()}_{analyzer.ToUpperCaseUnderLine()}", $"{propertyNode.Name.ToLowerCaseUnderLine()}.{analyzer}", $"{propertyNode.Summary ?? propertyNode.Name}(with `{analyzer}` analyzer)");
             }
         }

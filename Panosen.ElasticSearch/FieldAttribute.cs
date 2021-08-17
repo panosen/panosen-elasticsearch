@@ -39,17 +39,4 @@ namespace Panosen.ElasticSearch
         /// </summary>
         public virtual string Type { get; }
     }
-
-    ///// <summary>
-    ///// 复杂类型，对应类或者数组或者List
-    ///// </summary>
-    //public sealed class ComplexFieldAttribute : FieldAttribute
-    //{
-    //    public override FieldType FieldType => FieldType.Complex;
-
-    //    public override string Type => string.Empty;
-
-    //    public Type ComplexType { get; set; }
-    //}
-
 }

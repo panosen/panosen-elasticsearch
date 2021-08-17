@@ -68,7 +68,7 @@ namespace Panosen.ElasticSearch.MSTest
             }
         }
 
-        private string PrepareJava()
+        private static string PrepareJava()
         {
             return @"package Sample;
 
@@ -105,7 +105,7 @@ public final class BookFields {
 ";
         }
 
-        private string PrepareMappings()
+        private static string PrepareMappings()
         {
             return @"{
   ""mappings"": {

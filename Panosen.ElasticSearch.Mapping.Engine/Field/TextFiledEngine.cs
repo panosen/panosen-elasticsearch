@@ -31,11 +31,9 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             var sortedDataObject = dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"));
 
             //keyword
-            {
-                var keyword = sortedDataObject.AddDataObject(DataKey.DoubleQuotationString("keyword"));
-                keyword.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("keyword"));
-                keyword.AddDataValue(DataKey.DoubleQuotationString("ignore_above"), 256);
-            }
+            var keyword = sortedDataObject.AddDataObject(DataKey.DoubleQuotationString("keyword"));
+            keyword.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("keyword"));
+            keyword.AddDataValue(DataKey.DoubleQuotationString("ignore_above"), 256);
 
             //analyzer
             new AnalyzerEngine().Generate(sortedDataObject, textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);

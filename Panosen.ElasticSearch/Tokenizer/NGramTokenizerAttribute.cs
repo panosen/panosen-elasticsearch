@@ -85,7 +85,7 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// token_chars es默认值是 []
         /// </summary>
-        public NGramTokenChar TokenChars { get; set; } = NGramTokenChar.NONE;
+        public NGramTokenChar TokenChars { get; set; } = NGramTokenChar.None;
     }
 
     /// <summary>
@@ -97,31 +97,31 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// 未设置
         /// </summary>
-        NONE = 0,
+        None = 0,
 
         /// <summary>
         /// letter
         /// </summary>
-        LETTER = 1,
+        Letter = 1,
 
         /// <summary>
         /// digit
         /// </summary>
-        DIGIT = 2,
+        Digit = 2,
 
         /// <summary>
         /// whitespace
         /// </summary>
-        WHITESPACE = 4,
+        Whitespace = 4,
 
         /// <summary>
         /// punctuation
         /// </summary>
-        PUNCTUATION = 8,
+        Punctuation = 8,
 
         /// <summary>
         /// symbol
         /// </summary>
-        SYMBOL = 16
+        Symbol = 16
     }
 }
