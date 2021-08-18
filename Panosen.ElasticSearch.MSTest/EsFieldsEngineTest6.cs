@@ -93,19 +93,9 @@ public final class BookFields {
     public final static String WITH_NULL_VALUE = ""with_null_value"";
 
     /**
-     * WithNullValue(without analyzer)
-     */
-    public final static String WITH_NULL_VALUE_KEYWORD = ""with_null_value.keyword"";
-
-    /**
      * UseAnalyzer
      */
     public final static String USE_ANALYZER = ""use_analyzer"";
-
-    /**
-     * UseAnalyzer(without analyzer)
-     */
-    public final static String USE_ANALYZER_KEYWORD = ""use_analyzer.keyword"";
 
     /**
      * UseAnalyzer(with `simple` analyzer)
@@ -136,11 +126,6 @@ public final class BookFields {
      * WithDefaultAnalyzer
      */
     public final static String WITH_DEFAULT_ANALYZER = ""with_default_analyzer"";
-
-    /**
-     * WithDefaultAnalyzer(without analyzer)
-     */
-    public final static String WITH_DEFAULT_ANALYZER_KEYWORD = ""with_default_analyzer.keyword"";
 }
 ";
         }
@@ -166,10 +151,6 @@ public final class BookFields {
               ""type"": ""text"",
               ""analyzer"": ""ik_smart""
             },
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
-            },
             ""ngram_1_1"": {
               ""type"": ""text"",
               ""analyzer"": ""ngram_1_1""
@@ -186,23 +167,11 @@ public final class BookFields {
         },
         ""with_default_analyzer"": {
           ""type"": ""text"",
-          ""analyzer"": ""ik_smart"",
-          ""fields"": {
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
-            }
-          }
+          ""analyzer"": ""ik_smart""
         },
         ""with_null_value"": {
           ""type"": ""text"",
-          ""null_value"": ""NULL"",
-          ""fields"": {
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
-            }
-          }
+          ""null_value"": ""NULL""
         }
       }
     }

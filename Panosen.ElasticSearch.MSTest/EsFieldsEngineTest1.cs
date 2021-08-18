@@ -98,6 +98,11 @@ public final class BookFields {
     public final static String ASSUME_TEXT = ""assume_text"";
 
     /**
+     * AssumeText.Keyword
+     */
+    public final static String ASSUME_TEXT_KEYWORD = ""assume_text.keyword"";
+
+    /**
      * Timestamp
      */
     public final static String TIMESTAMP = ""timestamp"";

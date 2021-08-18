@@ -95,7 +95,7 @@ namespace Panosen.ElasticSearch.Java.Engine
             var textFieldAttribute = propertyNode.Attributes[0] as TextFieldAttribute;
             if (textFieldAttribute != null)
             {
-                AddField(codeClass, $"{propertyNode.Name.ToUpperCaseUnderLine()}_KEYWORD", $"{propertyNode.Name.ToLowerCaseUnderLine()}.keyword", $"{propertyNode.Summary ?? propertyNode.Name}(without analyzer)");
+                //AddField(codeClass, $"{propertyNode.Name.ToUpperCaseUnderLine()}_KEYWORD", $"{propertyNode.Name.ToLowerCaseUnderLine()}.keyword", $"{propertyNode.Summary ?? propertyNode.Name}(without analyzer)");
 
                 ProcessAnalyzer(codeClass, propertyNode, textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);
             }

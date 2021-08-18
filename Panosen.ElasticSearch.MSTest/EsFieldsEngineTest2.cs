@@ -111,11 +111,6 @@ public final class BookFields {
     public final static String USE_TEXT = ""use_text"";
 
     /**
-     * UseText(without analyzer)
-     */
-    public final static String USE_TEXT_KEYWORD = ""use_text.keyword"";
-
-    /**
      * UseText(with `ik_max_word` analyzer)
      */
     public final static String USE_TEXT_IK_MAX_WORD = ""use_text.ik_max_word"";
@@ -152,10 +147,6 @@ public final class BookFields {
             ""ik_max_word"": {
               ""type"": ""text"",
               ""analyzer"": ""ik_max_word""
-            },
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
             }
           }
         }
