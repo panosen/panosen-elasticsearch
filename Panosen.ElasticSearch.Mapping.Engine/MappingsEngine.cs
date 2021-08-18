@@ -67,68 +67,17 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             }
 
             //settings
-            var settingsDataObject = BuildSettings(indexAttribute, customTokenizerAttributeList, customFilterAttributeList, customAnalyzerAttributeList);
-            if (settingsDataObject != null)
+            var settingsDataObject = new SettingsEngine().BuildSettings(indexAttribute, customTokenizerAttributeList, customFilterAttributeList, customAnalyzerAttributeList);
+            if (settingsDataObject != null && settingsDataObject.DataItemMap != null && settingsDataObject.DataItemMap.Count > 0)
             {
                 dataObject.AddDataObject(DataKey.DoubleQuotationString("settings"), settingsDataObject);
             }
 
             //mappings
             var mappingsDataObject = BuildMappings(type);
-            if (mappingsDataObject != null)
+            if (mappingsDataObject != null && mappingsDataObject.DataItemMap != null && mappingsDataObject.DataItemMap.Count > 0)
             {
                 dataObject.AddDataObject(DataKey.DoubleQuotationString("mappings"), mappingsDataObject);
-            }
-
-            return dataObject;
-        }
-
-
-        private DataObject BuildFilterProperties(CustomFilterAttribute customFilterAttribute)
-        {
-            DataObject dataObject = new DataObject();
-
-            dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(customFilterAttribute.Type));
-
-            if (customFilterAttribute.Properties != null && customFilterAttribute.Properties.Length > 0 && customFilterAttribute.Properties.Length % 2 == 0)
-            {
-                for (int i = 0; i < customFilterAttribute.Properties.Length; i += 2)
-                {
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString(customFilterAttribute.Properties[i]), DataValue.DoubleQuotationString(customFilterAttribute.Properties[i + 1]));
-                }
-            }
-
-            return dataObject;
-        }
-
-        private DataObject BuildAnalyzerProperties(CustomAnalyzerAttribute customAnalyzerAttribute)
-        {
-            DataObject dataObject = new DataObject();
-
-            dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("custom"));
-            dataObject.AddDataValue(DataKey.DoubleQuotationString("tokenizer"), DataValue.DoubleQuotationString(customAnalyzerAttribute.Tokenizer));
-
-            List<string> tokenFilters = new List<string>();
-
-            var builtInTokenFilters = customAnalyzerAttribute.BuiltInTokenFilters.ToString()
-                .ToLower()
-                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
-                .Where(v => !"none".Equals(v))
-                .ToList();
-            tokenFilters.AddRange(builtInTokenFilters);
-
-            if (customAnalyzerAttribute.CustomTokenFilters != null && customAnalyzerAttribute.CustomTokenFilters.Length > 0)
-            {
-                tokenFilters.AddRange(customAnalyzerAttribute.CustomTokenFilters);
-            }
-
-            if (tokenFilters.Count > 0)
-            {
-                var dataArray = dataObject.AddDataArray(DataKey.DoubleQuotationString("filter"));
-                foreach (var item in tokenFilters)
-                {
-                    dataArray.AddDataValue(DataValue.DoubleQuotationString(item));
-                }
             }
 
             return dataObject;
@@ -143,8 +92,15 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             }
 
             DataObject dataObject = new DataObject();
-            var _doc = dataObject.AddDataObject(DataKey.DoubleQuotationString(indexAttribute.TypeName ?? "_doc"));
+            var _doc = new DataObject();
 
+            //_all
+            if (indexAttribute.AllEnabled != Enabled.None)
+            {
+                _doc.AddDataObject(DataKey.DoubleQuotationString("_all")).AddDataValue(DataKey.DoubleQuotationString("enabled"), indexAttribute.AllEnabled.ToString().ToLower());
+            }
+
+            //"dynamic": true
             switch (indexAttribute.Dynamic)
             {
                 case Dynamic.False:
@@ -158,7 +114,26 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     break;
             }
 
-            new PropertiesEngine().BuildProperties(_doc, type);
+            var dynamicTemplateAttributes = type.GetCustomAttributes(typeof(DynamicTemplateAttribute), false) as DynamicTemplateAttribute[];
+            if (dynamicTemplateAttributes != null && dynamicTemplateAttributes.Length > 0)
+            {
+                var dynamicTemplates = new DynamicTemplateEngine().BuildDynamicTemplates(dynamicTemplateAttributes);
+                if (dynamicTemplates != null && dynamicTemplates.Items != null && dynamicTemplates.Items.Count > 0)
+                {
+                    _doc.AddDataArray(DataKey.DoubleQuotationString("dynamic_templates"), dynamicTemplates);
+                }
+            }
+
+            var properties = new PropertiesEngine().BuildProperties(type);
+            if (properties != null && properties.DataItemMap != null && properties.DataItemMap.Count > 0)
+            {
+                _doc.AddSortedDataObject(DataKey.DoubleQuotationString("properties"), properties);
+            }
+
+            if (_doc.DataItemMap != null && _doc.DataItemMap.Count > 0)
+            {
+                dataObject.AddDataObject(DataKey.DoubleQuotationString(indexAttribute.TypeName ?? "_doc"), _doc);
+            }
 
             return dataObject;
         }

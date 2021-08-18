@@ -9,9 +9,15 @@ using Panosen.CodeDom;
 
 namespace Panosen.ElasticSearch.Mapping.Engine
 {
-    partial class MappingsEngine
+    /// <summary>
+    /// TokenizerEngine
+    /// </summary>
+    public class TokenizerEngine
     {
-        private DataObject BuildTokenizerBody(CustomTokenizerAttribute customTokenizerAttribute)
+        /// <summary>
+        /// BuildTokenizerBody
+        /// </summary>
+        public DataObject BuildTokenizerBody(CustomTokenizerAttribute customTokenizerAttribute)
         {
             if (customTokenizerAttribute is AbstractNGramTokenizerAttribute)
             {

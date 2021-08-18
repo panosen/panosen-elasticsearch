@@ -36,15 +36,13 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                 dataObject.AddDataValue(DataKey.DoubleQuotationString("null_value"), DataValue.DoubleQuotationString(textFieldAttribute.NullValue));
             }
 
-            var sortedDataObject = dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"));
-
-            //keyword
-            var keyword = sortedDataObject.AddDataObject(DataKey.DoubleQuotationString("keyword"));
-            keyword.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("keyword"));
-            keyword.AddDataValue(DataKey.DoubleQuotationString("ignore_above"), 256);
-
             //analyzer
+            var sortedDataObject = new SortedDataObject();
             new AnalyzerEngine().Generate(sortedDataObject, textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);
+            if (sortedDataObject.DataItemMap != null && sortedDataObject.DataItemMap.Count > 0)
+            {
+                dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"), sortedDataObject);
+            }
         }
     }
 }

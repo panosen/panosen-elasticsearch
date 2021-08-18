@@ -10,7 +10,9 @@ namespace Panosen.ElasticSearch.MSTest
     [TestClass]
     public class EsFieldsEngineTest3
     {
-        [Index(IndexName = "book-index", Aliases = new string[] { "book-alias" }, Dynamic = Dynamic.False, NumberOfShards = 1, NumberOfReplicas = 4, MappingTotalFieldsLimit = 50000)]
+        [Index(Aliases = new string[] { "book-alias" }, Dynamic = Dynamic.False, NumberOfShards = 1, NumberOfReplicas = 4, MappingTotalFieldsLimit = 50000,
+            SearchSlowlogThresholdQueryWarn = "500ms", RefreshInterval = "60s", TranslogSyncInterval = "60s", TranslogDurability = "async",
+            AnalysisAnalyzerDefaultType = "ik_max_word", AnalysisSearchAnalyzerDefaultType = "ik_smart")]
         [NGramTokenizer("trigram_tokenizer", 1, 3, NGramTokenChar.Letter | NGramTokenChar.Digit)]
         [EdgeNGramTokenizer("edge_ten_tokenizer", 1, 10, NGramTokenChar.Letter | NGramTokenChar.Digit)]
         [EdgeNGramTokenizer("edge_twenty_tokenizer", 1, 20, NGramTokenChar.Letter | NGramTokenChar.Digit)]
@@ -21,32 +23,6 @@ namespace Panosen.ElasticSearch.MSTest
         [CustomAnalyzer("comma_analyzer", "comma_tokenizer")]
         public class Book
         {
-            /// <summary>
-            /// 只存储，不索引
-            /// </summary>
-            [Field(Index = Index.False, DocValues = DocValues.False)]
-            public string NotIndexMe { get; set; }
-
-            /// <summary>
-            /// 只存储，不索引
-            /// </summary>
-            [TextField(NullValue = "NULL")]
-            public string WithNullValue { get; set; }
-
-            /// <summary>
-            /// with  analyzer
-            /// </summary>
-            [TextField(
-                IKAnalyzer = IKAnalyzer.IK_SMART | IKAnalyzer.IK_MAX_WORD,
-                BuiltInAnalyzer = BuiltInAnalyzer.Simple | BuiltInAnalyzer.Whitespace,
-                CustomAnalyzer = new string[] { "ngram_1_1" })]
-            public string UseAnalyzer { get; set; }
-
-            /// <summary>
-            /// 带默认分析器
-            /// </summary>
-            [TextField(IKAnalyzer.IK_SMART)]
-            public string WithDefaultAnalyzer { get; set; }
         }
 
         [TestMethod]
@@ -94,61 +70,6 @@ namespace Panosen.ElasticSearch.MSTest
  */
 
 public final class BookFields {
-
-    /**
-     * WithNullValue
-     */
-    public final static String WITH_NULL_VALUE = ""with_null_value"";
-
-    /**
-     * WithNullValue(without analyzer)
-     */
-    public final static String WITH_NULL_VALUE_KEYWORD = ""with_null_value.keyword"";
-
-    /**
-     * UseAnalyzer
-     */
-    public final static String USE_ANALYZER = ""use_analyzer"";
-
-    /**
-     * UseAnalyzer(without analyzer)
-     */
-    public final static String USE_ANALYZER_KEYWORD = ""use_analyzer.keyword"";
-
-    /**
-     * UseAnalyzer(with `simple` analyzer)
-     */
-    public final static String USE_ANALYZER_SIMPLE = ""use_analyzer.simple"";
-
-    /**
-     * UseAnalyzer(with `whitespace` analyzer)
-     */
-    public final static String USE_ANALYZER_WHITESPACE = ""use_analyzer.whitespace"";
-
-    /**
-     * UseAnalyzer(with `ik_max_word` analyzer)
-     */
-    public final static String USE_ANALYZER_IK_MAX_WORD = ""use_analyzer.ik_max_word"";
-
-    /**
-     * UseAnalyzer(with `ik_smart` analyzer)
-     */
-    public final static String USE_ANALYZER_IK_SMART = ""use_analyzer.ik_smart"";
-
-    /**
-     * UseAnalyzer(with `ngram_1_1` analyzer)
-     */
-    public final static String USE_ANALYZER_NGRAM_1_1 = ""use_analyzer.ngram_1_1"";
-
-    /**
-     * WithDefaultAnalyzer
-     */
-    public final static String WITH_DEFAULT_ANALYZER = ""with_default_analyzer"";
-
-    /**
-     * WithDefaultAnalyzer(without analyzer)
-     */
-    public final static String WITH_DEFAULT_ANALYZER_KEYWORD = ""with_default_analyzer.keyword"";
 }
 ";
         }
@@ -163,6 +84,12 @@ public final class BookFields {
     ""number_of_shards"": 1,
     ""number_of_replicas"": 4,
     ""mapping.total_fields.limit"": 50000,
+    ""search.slowlog.threshold.query.warn"": ""500ms"",
+    ""refresh_interval"": ""60s"",
+    ""translog.sync_interval"": ""60s"",
+    ""translog.durability"": ""async"",
+    ""analysis.analyzer.default.type"": ""ik_max_word"",
+    ""analysis.search_analyzer.default.type"": ""ik_smart"",
     ""analysis"": {
       ""tokenizer"": {
         ""trigram_tokenizer"": {
@@ -228,62 +155,7 @@ public final class BookFields {
   },
   ""mappings"": {
     ""_doc"": {
-      ""dynamic"": false,
-      ""properties"": {
-        ""not_index_me"": {
-          ""index"": false,
-          ""doc_values"": false
-        },
-        ""use_analyzer"": {
-          ""type"": ""text"",
-          ""fields"": {
-            ""ik_max_word"": {
-              ""type"": ""text"",
-              ""analyzer"": ""ik_max_word""
-            },
-            ""ik_smart"": {
-              ""type"": ""text"",
-              ""analyzer"": ""ik_smart""
-            },
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
-            },
-            ""ngram_1_1"": {
-              ""type"": ""text"",
-              ""analyzer"": ""ngram_1_1""
-            },
-            ""simple"": {
-              ""type"": ""text"",
-              ""analyzer"": ""simple""
-            },
-            ""whitespace"": {
-              ""type"": ""text"",
-              ""analyzer"": ""whitespace""
-            }
-          }
-        },
-        ""with_default_analyzer"": {
-          ""type"": ""text"",
-          ""analyzer"": ""ik_smart"",
-          ""fields"": {
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
-            }
-          }
-        },
-        ""with_null_value"": {
-          ""type"": ""text"",
-          ""null_value"": ""NULL"",
-          ""fields"": {
-            ""keyword"": {
-              ""type"": ""keyword"",
-              ""ignore_above"": 256
-            }
-          }
-        }
-      }
+      ""dynamic"": false
     }
   }
 }

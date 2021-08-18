@@ -18,25 +18,24 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// BuildProperties
         /// </summary>
-        public void BuildProperties(DataObject dataObject, Type type, bool nested = false, int depth = 0)
+        public SortedDataObject BuildProperties(Type type, int depth = 0)
         {
             if (depth > 8)
             {
-                return;
+                return null;
             }
 
-            if (nested)
-            {
-                dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("nested"));
-            }
-
-            var properties = dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("properties"));
+            SortedDataObject properties = new SortedDataObject();
 
             var propertyInfos = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var propertyInfo in propertyInfos)
             {
                 var propertyName = propertyInfo.Name.ToLowerCaseUnderLine();
                 var fieldAttribute = propertyInfo.GetCustomAttribute<FieldAttribute>(false);
+                if (fieldAttribute != null && !string.IsNullOrEmpty(fieldAttribute.Name))
+                {
+                    propertyName = fieldAttribute.Name;
+                }
 
                 //如果不是 List<T>，则跳过
                 if (propertyInfo.PropertyType.IsGenericType)
@@ -47,32 +46,33 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                         continue;
                     }
 
-                    BuildProperty(properties, propertyName, fieldAttribute, propertyInfo.PropertyType.GenericTypeArguments[0], depth);
-
-                    continue;
+                    var dataObject = BuildProperty(fieldAttribute, propertyInfo.PropertyType.GenericTypeArguments[0], depth);
+                    properties.AddDataObject(DataKey.DoubleQuotationString(propertyName), dataObject);
                 }
-
-                BuildProperty(properties, propertyName, fieldAttribute, propertyInfo.PropertyType, depth);
+                else
+                {
+                    var dataObject = BuildProperty(fieldAttribute, propertyInfo.PropertyType, depth);
+                    properties.AddDataObject(DataKey.DoubleQuotationString(propertyName), dataObject);
+                }
             }
+
+            return properties;
         }
 
-        private void BuildProperty(SortedDataObject properties, string propertyName, FieldAttribute fieldAttribute, Type propertyType, int depth)
+        private DataObject BuildProperty(FieldAttribute fieldAttribute, Type propertyType, int depth)
         {
-            if (fieldAttribute != null && !string.IsNullOrEmpty(fieldAttribute.Name))
-            {
-                propertyName = fieldAttribute.Name;
-            }
-
-            var sortedDataObject = properties.AddDataObject(DataKey.DoubleQuotationString(propertyName));
+            var dataObject = new DataObject();
 
             if (fieldAttribute != null)
             {
-                ProcessFieldAttribute(sortedDataObject, fieldAttribute, propertyType, depth);
+                ProcessFieldAttribute(dataObject, fieldAttribute, propertyType, depth);
             }
             else
             {
-                ProcessPropertyInfo(sortedDataObject, propertyType, depth);
+                ProcessPropertyType(dataObject, propertyType, Index.None, DocValues.None, depth);
             }
+
+            return dataObject;
         }
 
         private void ProcessFieldAttribute(DataObject dataObject, FieldAttribute fieldAttribute, Type propertyType, int depth)
@@ -82,6 +82,11 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                 case FieldType.Integer:
                     {
                         new IntegerFiledEngine().Generate(dataObject, fieldAttribute as IntegerFieldAttribute);
+                    }
+                    break;
+                case FieldType.Boolean:
+                    {
+                        new BooleanFiledEngine().Generate(dataObject, fieldAttribute as BooleanFieldAttribute);
                     }
                     break;
                 case FieldType.Long:
@@ -99,6 +104,11 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                         new TextFiledEngine().Generate(dataObject, fieldAttribute as TextFieldAttribute);
                     }
                     break;
+                case FieldType.GeoPoint:
+                    {
+                        new GeoPointFiledEngine().Generate(dataObject, fieldAttribute as GeoPointFieldAttribute);
+                    }
+                    break;
                 case FieldType.Object:
                     {
                         new ObjectFiledEngine().Generate(dataObject, fieldAttribute as ObjectFieldAttribute);
@@ -106,7 +116,13 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     break;
                 case FieldType.NestedObject:
                     {
-                        BuildProperties(dataObject, propertyType, nested: true, depth: depth + 1);
+                        dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("nested"));
+
+                        var properties = BuildProperties(propertyType, depth: depth + 1);
+                        if (properties != null && properties.DataItemMap != null && properties.DataItemMap.Count > 0)
+                        {
+                            dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("properties"), properties);
+                        }
                     }
                     break;
                 default:
@@ -117,32 +133,39 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             }
         }
 
-        private void ProcessPropertyInfo(DataObject dataObject, Type propertyType, int depth)
+        /// <summary>
+        /// ProcessPropertyType
+        /// </summary>
+        public void ProcessPropertyType(DataObject dataObject, Type propertyType, Index index, DocValues docValues, int depth)
         {
             switch (propertyType.ToString())
             {
                 case "System.Int32":
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.INTEGER));
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.INTEGER);
                     return;
 
                 case "System.Int64":
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.LONG));
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.LONG);
+                    return;
+
+                case "System.Single":
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.FLOAT);
                     return;
 
                 case "System.Double":
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.DOUBLE));
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.DOUBLE);
                     return;
 
                 case "System.Boolean":
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.BOOLEAN));
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.BOOLEAN);
                     return;
 
                 case "System.DateTime":
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.DATE));
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.DATE);
                     return;
 
                 case "System.String":
-                    dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(MappingTypes.TEXT));
+                    ProcessPrimitive(dataObject, index, docValues, MappingTypes.TEXT);
 
                     var keyword = dataObject.AddDataObject(DataKey.DoubleQuotationString("fields")).AddDataObject(DataKey.DoubleQuotationString("keyword"));
                     keyword.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("keyword"));
@@ -155,7 +178,26 @@ namespace Panosen.ElasticSearch.Mapping.Engine
 
             if (!propertyType.IsPrimitive)
             {
-                BuildProperties(dataObject, propertyType, depth: depth + 1);
+                var properties = BuildProperties(propertyType, depth: depth + 1);
+                if (properties != null && properties.DataItemMap != null && properties.DataItemMap.Count > 0)
+                {
+                    dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("properties"), properties);
+                }
+            }
+        }
+
+        private static void ProcessPrimitive(DataObject dataObject, Index index, DocValues docValues, string mappingType)
+        {
+            dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(mappingType));
+
+            if (index != Index.None)
+            {
+                dataObject.AddDataValue(DataKey.DoubleQuotationString("index"), index.ToString().ToLower());
+            }
+
+            if (docValues != DocValues.None)
+            {
+                dataObject.AddDataValue(DataKey.DoubleQuotationString("doc_values"), docValues.ToString().ToLower());
             }
         }
     }

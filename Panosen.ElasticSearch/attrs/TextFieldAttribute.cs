@@ -44,15 +44,14 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// 使用`标准分析器`作为基础分析器
         /// </summary>
-        /// <param name="defaultAnalyzer">基础分析器</param>
-        public TextFieldAttribute(BuiltInAnalyzer defaultAnalyzer)
+        public TextFieldAttribute(BuiltInAnalyzer builtInAnalyzer)
         {
-            if (defaultAnalyzer == BuiltInAnalyzer.None)
+            if (builtInAnalyzer == BuiltInAnalyzer.None)
             {
                 return;
             }
 
-            this.DefaultAnalyzer = defaultAnalyzer.ToString().ToLower();
+            this.DefaultAnalyzer = builtInAnalyzer.ToString().ToLower();
         }
 
         /// <summary>

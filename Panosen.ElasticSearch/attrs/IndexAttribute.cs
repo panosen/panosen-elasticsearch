@@ -8,13 +8,6 @@ namespace Panosen.ElasticSearch
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class IndexAttribute : Attribute
     {
-        #region 索引
-
-        /// <summary>
-        /// 索引名。如果不显示设置，将使用类名作为索引名
-        /// </summary>
-        public string IndexName { get; set; }
-
         /// <summary>
         /// 分片数 number_of_shards，默认值是5
         /// </summary>
@@ -42,12 +35,8 @@ namespace Panosen.ElasticSearch
         /// </summary>
         public string[] Aliases { get; set; }
 
-        #endregion
-
-        #region 类型
-
         /// <summary>
-        /// 类型名称
+        /// 类型名(7.x已经废除)。建议不要设置，默认会使用"_doc"
         /// </summary>
         public string TypeName { get; set; }
 
@@ -62,7 +51,35 @@ namespace Panosen.ElasticSearch
         /// </summary>
         public Enabled AllEnabled { get; set; }
 
-        #endregion
+        /// <summary>
+        /// search.slowlog.threshold.query.warn
+        /// </summary>
+        public string SearchSlowlogThresholdQueryWarn { get; set; }
+
+        /// <summary>
+        /// refresh_interval
+        /// </summary>
+        public string RefreshInterval { get; set; }
+
+        /// <summary>
+        /// translog.sync_interval
+        /// </summary>
+        public string TranslogSyncInterval { get; set; }
+
+        /// <summary>
+        /// translog.durability
+        /// </summary>
+        public string TranslogDurability { get; set; }
+
+        /// <summary>
+        /// analysis.analyzer.default.type
+        /// </summary>
+        public string AnalysisAnalyzerDefaultType { get; set; }
+
+        /// <summary>
+        /// analysis.search_analyzer.default.type
+        /// </summary>
+        public string AnalysisSearchAnalyzerDefaultType { get; set; }
     }
 
     /// <summary>

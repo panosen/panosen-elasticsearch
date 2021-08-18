@@ -35,6 +35,8 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     dataObject.AddDataValue(DataKey.DoubleQuotationString("dynamic"), DataValue.DoubleQuotationString("strict"));
                     break;
                 case Dynamic.True:
+                    dataObject.AddDataValue(DataKey.DoubleQuotationString("dynamic"), true);
+                    break;
                 default:
                     break;
             }
