@@ -43,18 +43,30 @@ namespace Panosen.ElasticSearch.MSTest
         {
             var type = typeof(Book);
 
+            var classNode = ClassLoader.LoadClass(type);
+
             {
-
-                var classNode = ClassLoader.LoadClass(type);
-
                 DocFields docFields = new DocFields();
                 docFields.ClassNode = classNode;
                 docFields.JavaRoot = "Sample";
-                docFields.RootNamespace = "ok";
+                docFields.RootNamespace = type.ReflectedType.FullName;
 
                 var actual = docFields.TransformText();
 
                 var expected = PrepareExpected();
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                DocEntity docEntity = new DocEntity();
+                docEntity.ClassNode = classNode;
+                docEntity.JavaRoot = "Sample";
+                docEntity.RootNamespace = type.ReflectedType.FullName;
+
+                var actual = docEntity.TransformText();
+
+                var expected = PrepareEntity();
 
                 Assert.AreEqual(expected, actual);
             }
@@ -114,6 +126,93 @@ public final class BookFields {
      * UseText(with `ik_max_word` analyzer)
      */
     public final static String USE_TEXT_IK_MAX_WORD = ""use_text.ik_max_word"";
+}
+";
+        }
+
+        private static string PrepareEntity()
+        {
+            return @"package Sample;
+
+/*
+ *------------------------------------------------------------------------------
+ *     DO NOT GO GENTLE INTO THAT GOOD NIGHT.
+ *
+ *     harriszhang@live.cn
+ *------------------------------------------------------------------------------
+ */
+
+import com.google.gson.annotations.SerializedName;
+
+public class Book {
+
+    @SerializedName(""use_integer"")
+    private Integer useInteger;
+
+    @SerializedName(""use_long"")
+    private Long useLong;
+
+    @SerializedName(""use_keyword"")
+    private String useKeyword;
+
+    @SerializedName(""use_text"")
+    private String useText;
+
+    /**
+     * Get 
+     */
+    public Integer getUseInteger() {
+        return useInteger;
+    }
+
+    /**
+     * Set 
+     */
+    public void setUseInteger(Integer useInteger) {
+        this.useInteger = useInteger;
+    }
+
+    /**
+     * Get 
+     */
+    public Long getUseLong() {
+        return useLong;
+    }
+
+    /**
+     * Set 
+     */
+    public void setUseLong(Long useLong) {
+        this.useLong = useLong;
+    }
+
+    /**
+     * Get 
+     */
+    public String getUseKeyword() {
+        return useKeyword;
+    }
+
+    /**
+     * Set 
+     */
+    public void setUseKeyword(String useKeyword) {
+        this.useKeyword = useKeyword;
+    }
+
+    /**
+     * Get 
+     */
+    public String getUseText() {
+        return useText;
+    }
+
+    /**
+     * Set 
+     */
+    public void setUseText(String useText) {
+        this.useText = useText;
+    }
 }
 ";
         }

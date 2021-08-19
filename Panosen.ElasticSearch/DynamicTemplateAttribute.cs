@@ -19,18 +19,17 @@ namespace Panosen.ElasticSearch
         public string Name { get; set; }
 
         /// <summary>
+        /// DynamicTemplateAttribute
+        /// </summary>
+        public DynamicTemplateAttribute(string name)
+        {
+            this.Name = name;
+        }
+
+        /// <summary>
         /// Mapping
         /// </summary>
         public Type Type { get; set; }
-
-        /// <summary>
-        /// DynamicTemplateAttribute
-        /// </summary>
-        public DynamicTemplateAttribute(string name, Type mapping)
-        {
-            this.Name = name;
-            this.Type = mapping;
-        }
 
         /// <summary>
         /// match_mapping_type

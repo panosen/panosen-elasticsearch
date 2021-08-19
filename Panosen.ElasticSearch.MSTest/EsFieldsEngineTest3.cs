@@ -30,17 +30,30 @@ namespace Panosen.ElasticSearch.MSTest
         {
             var type = typeof(Book);
 
-            {
-                var classNode = ClassLoader.LoadClass(type);
+            var classNode = ClassLoader.LoadClass(type);
 
+            {
                 DocFields docFields = new DocFields();
                 docFields.ClassNode = classNode;
                 docFields.JavaRoot = "Sample";
-                docFields.RootNamespace = "ok";
+                docFields.RootNamespace = type.ReflectedType.FullName;
 
                 var actual = docFields.TransformText();
 
                 var expected = PrepareExpected();
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                DocEntity docEntity = new DocEntity();
+                docEntity.ClassNode = classNode;
+                docEntity.JavaRoot = "Sample";
+                docEntity.RootNamespace = type.ReflectedType.FullName;
+
+                var actual = docEntity.TransformText();
+
+                var expected = PrepareEntity();
 
                 Assert.AreEqual(expected, actual);
             }
@@ -70,6 +83,25 @@ namespace Panosen.ElasticSearch.MSTest
  */
 
 public final class BookFields {
+}
+";
+        }
+
+        private static string PrepareEntity()
+        {
+            return @"package Sample;
+
+/*
+ *------------------------------------------------------------------------------
+ *     DO NOT GO GENTLE INTO THAT GOOD NIGHT.
+ *
+ *     harriszhang@live.cn
+ *------------------------------------------------------------------------------
+ */
+
+import com.google.gson.annotations.SerializedName;
+
+public class Book {
 }
 ";
         }
@@ -155,7 +187,7 @@ public final class BookFields {
   },
   ""mappings"": {
     ""_doc"": {
-      ""dynamic"": false
+      ""dynamic"": ""false""
     }
   }
 }

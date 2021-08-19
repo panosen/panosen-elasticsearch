@@ -44,17 +44,30 @@ namespace Panosen.ElasticSearch.MSTest
         {
             var type = typeof(Book);
 
-            {
-                var classNode = ClassLoader.LoadClass(type);
+            var classNode = ClassLoader.LoadClass(type);
 
+            {
                 DocFields docFields = new DocFields();
                 docFields.ClassNode = classNode;
                 docFields.JavaRoot = "Sample";
-                docFields.RootNamespace = "ok";
+                docFields.RootNamespace = type.ReflectedType.FullName;
 
                 var actual = docFields.TransformText();
 
                 var expected = PrepareJava();
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                DocEntity docEntity = new DocEntity();
+                docEntity.ClassNode = classNode;
+                docEntity.JavaRoot = "Sample";
+                docEntity.RootNamespace = type.ReflectedType.FullName;
+
+                var actual = docEntity.TransformText();
+
+                var expected = PrepareEntity();
 
                 Assert.AreEqual(expected, actual);
             }
@@ -104,6 +117,93 @@ public final class BookFields {
      * Tag
      */
     public final static String TAG = ""tag"";
+}
+";
+        }
+
+        private static string PrepareEntity()
+        {
+            return @"package Sample;
+
+/*
+ *------------------------------------------------------------------------------
+ *     DO NOT GO GENTLE INTO THAT GOOD NIGHT.
+ *
+ *     harriszhang@live.cn
+ *------------------------------------------------------------------------------
+ */
+
+import com.google.gson.annotations.SerializedName;
+
+public class Book {
+
+    @SerializedName(""id"")
+    private Integer id;
+
+    @SerializedName(""brand"")
+    private Object brand;
+
+    @SerializedName(""category"")
+    private Object category;
+
+    @SerializedName(""tag"")
+    private Object tag;
+
+    /**
+     * Get 
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Set 
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * Get 
+     */
+    public Object getBrand() {
+        return brand;
+    }
+
+    /**
+     * Set 
+     */
+    public void setBrand(Object brand) {
+        this.brand = brand;
+    }
+
+    /**
+     * Get 
+     */
+    public Object getCategory() {
+        return category;
+    }
+
+    /**
+     * Set 
+     */
+    public void setCategory(Object category) {
+        this.category = category;
+    }
+
+    /**
+     * Get 
+     */
+    public Object getTag() {
+        return tag;
+    }
+
+    /**
+     * Set 
+     */
+    public void setTag(Object tag) {
+        this.tag = tag;
+    }
 }
 ";
         }

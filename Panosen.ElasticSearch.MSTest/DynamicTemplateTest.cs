@@ -11,14 +11,16 @@ namespace Panosen.ElasticSearch.MSTest
     public class DynamicTemplateTest
     {
         [Index]
-        [DynamicTemplate("zero", typeof(int),
+        [DynamicTemplate("zero", Type = typeof(int),
             MatchMappingType = MatchMappingType.Long,
             NameMatch = "b", NameUnmatch = "c", NameMatchPattern = "d",
             PathMatch = "e", PathUnmatch = "f")]
-        [DynamicTemplate("one", typeof(int), MatchMappingType = MatchMappingType.Long)]
-        [DynamicTemplate("two", typeof(long), NameMatch = "zhangsan")]
-        [DynamicTemplate("three", typeof(long), MatchMappingType = MatchMappingType.String)]
-        [DynamicTemplate("four", typeof(int), MatchMappingType = MatchMappingType.String, Index = Index.False)]
+        [DynamicTemplate("one", Type = typeof(int), MatchMappingType = MatchMappingType.Long)]
+        [DynamicTemplate("two", Type = typeof(long), NameMatch = "zhangsan")]
+        [DynamicTemplate("three", Type = typeof(long), MatchMappingType = MatchMappingType.String)]
+        [DynamicTemplate("four", Type = typeof(int), MatchMappingType = MatchMappingType.String, Index = Index.False)]
+        [DynamicTemplate("five", Index = Index.False, PathMatch = "*_part_set.*")]
+        [DynamicTemplate("six", Type = typeof(Keyword), Index = Index.False)]
         public class Book
         {
         }
@@ -119,8 +121,24 @@ public final class BookFields {
           ""four"": {
             ""match_mapping_type"": ""string"",
             ""mapping"": {
-              ""type"": ""integer"",
+              ""index"": false,
+              ""type"": ""integer""
+            }
+          }
+        },
+        {
+          ""five"": {
+            ""path_match"": ""*_part_set.*"",
+            ""mapping"": {
               ""index"": false
+            }
+          }
+        },
+        {
+          ""six"": {
+            ""mapping"": {
+              ""index"": false,
+              ""type"": ""keyword""
             }
           }
         }

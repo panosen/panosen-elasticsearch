@@ -74,11 +74,13 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                 dataObject.AddDataValue(DataKey.DoubleQuotationString("path_unmatch"), DataValue.DoubleQuotationString(dynamicTemplateAttribute.PathUnmatch));
             }
 
-            if (dynamicTemplateAttribute.Type != null)
-            {
-                var mapping = dataObject.AddDataObject(DataKey.DoubleQuotationString("mapping"));
+            var mapping = new DataObject();
 
-                new PropertiesEngine().ProcessPropertyType(mapping, dynamicTemplateAttribute.Type, dynamicTemplateAttribute.Index, DocValues.None, 0);
+            new PropertiesEngine().ProcessPropertyType(mapping, dynamicTemplateAttribute.Type, dynamicTemplateAttribute.Index, DocValues.None, 0);
+
+            if (mapping != null && mapping.DataItemMap != null && mapping.DataItemMap.Count > 0)
+            {
+                dataObject.AddDataObject(DataKey.DoubleQuotationString("mapping"), mapping);
             }
 
             return dynamicTemplate;

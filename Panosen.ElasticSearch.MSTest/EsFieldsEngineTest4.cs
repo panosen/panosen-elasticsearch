@@ -47,17 +47,30 @@ namespace Panosen.ElasticSearch.MSTest
         {
             var type = typeof(Book);
 
-            {
-                var classNode = ClassLoader.LoadClass(type);
+            var classNode = ClassLoader.LoadClass(type);
 
+            {
                 DocFields docFields = new DocFields();
                 docFields.ClassNode = classNode;
                 docFields.JavaRoot = "Sample";
-                docFields.RootNamespace = "ok";
+                docFields.RootNamespace = type.ReflectedType.FullName;
 
                 var actual = docFields.TransformText();
 
                 var expected = PrepareJava();
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                DocEntity docEntity = new DocEntity();
+                docEntity.ClassNode = classNode;
+                docEntity.JavaRoot = "Sample";
+                docEntity.RootNamespace =type.ReflectedType.FullName;
+
+                var actual = docEntity.TransformText();
+
+                var expected = PrepareEntity();
 
                 Assert.AreEqual(expected, actual);
             }
@@ -107,6 +120,93 @@ public final class BookFields {
      * NestedBrandList
      */
     public final static String NESTED_BRAND_LIST = ""nested_brand_list"";
+}
+";
+        }
+
+        private static string PrepareEntity()
+        {
+            return @"package Sample;
+
+/*
+ *------------------------------------------------------------------------------
+ *     DO NOT GO GENTLE INTO THAT GOOD NIGHT.
+ *
+ *     harriszhang@live.cn
+ *------------------------------------------------------------------------------
+ */
+
+import com.google.gson.annotations.SerializedName;
+
+public class Book {
+
+    @SerializedName(""id"")
+    private Integer id;
+
+    @SerializedName(""brand"")
+    private Brand brand;
+
+    @SerializedName(""brand_list"")
+    private java.util.List<Brand> brandList;
+
+    @SerializedName(""nested_brand_list"")
+    private java.util.List<Brand> nestedBrandList;
+
+    /**
+     * Get 
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Set 
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * Get 
+     */
+    public Brand getBrand() {
+        return brand;
+    }
+
+    /**
+     * Set 
+     */
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    /**
+     * Get 
+     */
+    public java.util.List<Brand> getBrandList() {
+        return brandList;
+    }
+
+    /**
+     * Set 
+     */
+    public void setBrandList(java.util.List<Brand> brandList) {
+        this.brandList = brandList;
+    }
+
+    /**
+     * Get 
+     */
+    public java.util.List<Brand> getNestedBrandList() {
+        return nestedBrandList;
+    }
+
+    /**
+     * Set 
+     */
+    public void setNestedBrandList(java.util.List<Brand> nestedBrandList) {
+        this.nestedBrandList = nestedBrandList;
+    }
 }
 ";
         }

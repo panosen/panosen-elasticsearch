@@ -104,12 +104,14 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             switch (indexAttribute.Dynamic)
             {
                 case Dynamic.False:
-                    _doc.AddDataValue(DataKey.DoubleQuotationString("dynamic"), false);
+                    _doc.AddDataValue(DataKey.DoubleQuotationString("dynamic"), DataValue.DoubleQuotationString("false"));
                     break;
                 case Dynamic.Strict:
                     _doc.AddDataValue(DataKey.DoubleQuotationString("dynamic"), DataValue.DoubleQuotationString("strict"));
                     break;
                 case Dynamic.True:
+                    _doc.AddDataValue(DataKey.DoubleQuotationString("dynamic"), DataValue.DoubleQuotationString("true"));
+                    break;
                 default:
                     break;
             }

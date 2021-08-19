@@ -46,9 +46,9 @@ namespace Panosen.ElasticSearch.MSTest
         {
             var type = typeof(Book);
 
-            {
-                var classNode = ClassLoader.LoadClass(type);
+            var classNode = ClassLoader.LoadClass(type);
 
+            {
                 DocFields docFields = new DocFields();
                 docFields.ClassNode = classNode;
                 docFields.JavaRoot = "Sample";
@@ -57,6 +57,19 @@ namespace Panosen.ElasticSearch.MSTest
                 var actual = docFields.TransformText();
 
                 var expected = PrepareExpected();
+
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                DocEntity docEntity = new DocEntity();
+                docEntity.ClassNode = classNode;
+                docEntity.JavaRoot = "Sample";
+                docEntity.RootNamespace = "ok";
+
+                var actual = docEntity.TransformText();
+
+                var expected = PrepareEntity();
 
                 Assert.AreEqual(expected, actual);
             }
@@ -126,6 +139,93 @@ public final class BookFields {
      * WithDefaultAnalyzer
      */
     public final static String WITH_DEFAULT_ANALYZER = ""with_default_analyzer"";
+}
+";
+        }
+
+        private static string PrepareEntity()
+        {
+            return @"package Sample;
+
+/*
+ *------------------------------------------------------------------------------
+ *     DO NOT GO GENTLE INTO THAT GOOD NIGHT.
+ *
+ *     harriszhang@live.cn
+ *------------------------------------------------------------------------------
+ */
+
+import com.google.gson.annotations.SerializedName;
+
+public class Book {
+
+    @SerializedName(""not_index_me"")
+    private String notIndexMe;
+
+    @SerializedName(""with_null_value"")
+    private String withNullValue;
+
+    @SerializedName(""use_analyzer"")
+    private String useAnalyzer;
+
+    @SerializedName(""with_default_analyzer"")
+    private String withDefaultAnalyzer;
+
+    /**
+     * Get 
+     */
+    public String getNotIndexMe() {
+        return notIndexMe;
+    }
+
+    /**
+     * Set 
+     */
+    public void setNotIndexMe(String notIndexMe) {
+        this.notIndexMe = notIndexMe;
+    }
+
+    /**
+     * Get 
+     */
+    public String getWithNullValue() {
+        return withNullValue;
+    }
+
+    /**
+     * Set 
+     */
+    public void setWithNullValue(String withNullValue) {
+        this.withNullValue = withNullValue;
+    }
+
+    /**
+     * Get 
+     */
+    public String getUseAnalyzer() {
+        return useAnalyzer;
+    }
+
+    /**
+     * Set 
+     */
+    public void setUseAnalyzer(String useAnalyzer) {
+        this.useAnalyzer = useAnalyzer;
+    }
+
+    /**
+     * Get 
+     */
+    public String getWithDefaultAnalyzer() {
+        return withDefaultAnalyzer;
+    }
+
+    /**
+     * Set 
+     */
+    public void setWithDefaultAnalyzer(String withDefaultAnalyzer) {
+        this.withDefaultAnalyzer = withDefaultAnalyzer;
+    }
 }
 ";
         }

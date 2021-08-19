@@ -19,6 +19,11 @@ namespace Panosen.ElasticSearch.Java.Engine
         /// <returns></returns>
         public static string ToJavaType(this Type type, string rootNamespace)
         {
+            if (type == typeof(Keyword))
+            {
+                return "String";
+            }
+
             if (type.IsGenericType)
             {
                 var genericTypeName = type.Name.Split(new string[] { "`" }, StringSplitOptions.RemoveEmptyEntries)[0];
@@ -72,6 +77,9 @@ namespace Panosen.ElasticSearch.Java.Engine
                     break;
                 case "System.Double":
                     typeName = "Double";
+                    break;
+                case "System.Object":
+                    typeName = "Object";
                     break;
 
                 default:

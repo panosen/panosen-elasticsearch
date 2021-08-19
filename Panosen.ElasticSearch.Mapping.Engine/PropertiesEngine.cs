@@ -138,6 +138,12 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// </summary>
         public void ProcessPropertyType(DataObject dataObject, Type propertyType, Index index, DocValues docValues, int depth)
         {
+            if (propertyType == null)
+            {
+                ProcessPrimitive(dataObject, index, docValues, null);
+                return;
+            }
+
             switch (propertyType.ToString())
             {
                 case "System.Int32":
@@ -176,6 +182,11 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     break;
             }
 
+            if (propertyType == typeof(Keyword))
+            {
+                ProcessPrimitive(dataObject, index, docValues, MappingTypes.KEYWORD);
+            }
+
             if (!propertyType.IsPrimitive)
             {
                 var properties = BuildProperties(propertyType, depth: depth + 1);
@@ -188,11 +199,14 @@ namespace Panosen.ElasticSearch.Mapping.Engine
 
         private static void ProcessPrimitive(DataObject dataObject, Index index, DocValues docValues, string mappingType)
         {
-            dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(mappingType));
-
             if (index != Index.None)
             {
                 dataObject.AddDataValue(DataKey.DoubleQuotationString("index"), index.ToString().ToLower());
+            }
+
+            if (!string.IsNullOrEmpty(mappingType))
+            {
+                dataObject.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString(mappingType));
             }
 
             if (docValues != DocValues.None)
