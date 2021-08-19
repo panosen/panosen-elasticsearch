@@ -11,7 +11,7 @@ namespace Panosen.ElasticSearch
     /// https://www.elastic.co/guide/en/elasticsearch/reference/6.8/multi-fields.html
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public abstract class FieldsAttribute : Attribute
+    public abstract class WithFieldsAttribute : Attribute
     {
         /// <summary>
         /// 名称
@@ -22,7 +22,7 @@ namespace Panosen.ElasticSearch
     /// <summary>
     /// keyword类型的fields
     /// </summary>
-    public sealed class KeywordFieldsAttribute : FieldsAttribute
+    public sealed class WithKeywordFieldsAttribute : WithFieldsAttribute
     {
         /// <summary>
         /// IgnoreAbove
@@ -33,7 +33,7 @@ namespace Panosen.ElasticSearch
     /// <summary>
     /// text类型的fields
     /// </summary>
-    public sealed class TextFieldsAttribute : FieldsAttribute
+    public sealed class WithTextFieldsAttribute : WithFieldsAttribute
     {
         /// <summary>
         /// Analyzer
@@ -43,7 +43,7 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// TextFieldsAttribute
         /// </summary>
-        public TextFieldsAttribute(BuiltInAnalyzer analyzer)
+        public WithTextFieldsAttribute(BuiltInAnalyzer analyzer)
         {
             if (analyzer == BuiltInAnalyzer.None)
             {
@@ -55,7 +55,7 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// TextFieldsAttribute
         /// </summary>
-        public TextFieldsAttribute(IKAnalyzer analyzer)
+        public WithTextFieldsAttribute(IKAnalyzer analyzer)
         {
             if (analyzer == IKAnalyzer.None)
             {
@@ -67,7 +67,7 @@ namespace Panosen.ElasticSearch
         /// <summary>
         /// TextFieldsAttribute
         /// </summary>
-        public TextFieldsAttribute(string analyzer)
+        public WithTextFieldsAttribute(string analyzer)
         {
             if (string.IsNullOrEmpty(analyzer))
             {

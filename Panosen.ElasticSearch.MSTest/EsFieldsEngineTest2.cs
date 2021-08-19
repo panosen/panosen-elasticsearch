@@ -29,17 +29,17 @@ namespace Panosen.ElasticSearch.MSTest
             /// 使用 keyword
             /// </summary>
             [KeywordField(Index = Index.False, IgnoreAbove = 128)]
-            [TextFields(IKAnalyzer.IK_SMART)]
+            [WithTextFields(IKAnalyzer.IK_SMART)]
             public string UseKeyword { get; set; }
 
             /// <summary>
             /// 使用 text
             /// </summary>
             [TextField]
-            [TextFields(IKAnalyzer.IK_MAX_WORD)]
-            [KeywordFields]
-            [KeywordFields(Name = "TestCase")]
-            [KeywordFields(Name = "SampleCase", IgnoreAbove = 256)]
+            [WithTextFields(IKAnalyzer.IK_MAX_WORD)]
+            [WithKeywordFields]
+            [WithKeywordFields(Name = "TestCase")]
+            [WithKeywordFields(Name = "SampleCase", IgnoreAbove = 256)]
             public string UseText { get; set; }
         }
 

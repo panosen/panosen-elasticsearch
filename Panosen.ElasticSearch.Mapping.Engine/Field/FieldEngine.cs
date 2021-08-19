@@ -17,7 +17,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// Generate
         /// </summary>
-        public void Generate(DataObject dataObject, TFieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes)
+        public void Generate(DataObject dataObject, TFieldAttribute fieldAttribute, List<WithFieldsAttribute> fieldsAttributes)
         {
             if (fieldAttribute == null)
             {
@@ -47,7 +47,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected abstract void OnGenerate(DataObject dataObject, TFieldAttribute value, List<FieldsAttribute> fieldsAttributes);
+        protected abstract void OnGenerate(DataObject dataObject, TFieldAttribute value, List<WithFieldsAttribute> fieldsAttributes);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, FieldAttribute value, List<FieldsAttribute> fieldsAttributes)
+        protected override void OnGenerate(DataObject dataObject, FieldAttribute value, List<WithFieldsAttribute> fieldsAttributes)
         {
         }
 

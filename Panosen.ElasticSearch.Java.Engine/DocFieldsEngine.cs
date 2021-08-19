@@ -52,7 +52,7 @@ namespace Panosen.ElasticSearch.Java.Engine
                 var propertyType = propertyNode.PropertyType;
 
                 var fieldAttribute = propertyNode.Attributes.FirstOrDefault(v => v is FieldAttribute) as FieldAttribute;
-                var fieldsAttribute = propertyNode.Attributes.Where(v => v is FieldsAttribute).Select(v => v as FieldsAttribute).ToList();
+                var fieldsAttribute = propertyNode.Attributes.Where(v => v is WithFieldsAttribute).Select(v => v as WithFieldsAttribute).ToList();
 
                 codeClass.AddField(JavaTypeConstant.STRING, propertyName.ToUpperCaseUnderLine(),
                     accessModifiers: AccessModifiers.Public,
@@ -72,7 +72,7 @@ namespace Panosen.ElasticSearch.Java.Engine
             }
         }
 
-        private void ProcessFieldAttribute(CodeClass codeClass, string propertyName, string propertySummary, FieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes)
+        private void ProcessFieldAttribute(CodeClass codeClass, string propertyName, string propertySummary, FieldAttribute fieldAttribute, List<WithFieldsAttribute> fieldsAttributes)
         {
             if (fieldAttribute == null)
             {
@@ -113,9 +113,9 @@ namespace Panosen.ElasticSearch.Java.Engine
             }
         }
 
-        private CodeField ProcessFields(CodeClass codeClass, string propertyName, string propertySummary, FieldsAttribute fieldsAttribute)
+        private CodeField ProcessFields(CodeClass codeClass, string propertyName, string propertySummary, WithFieldsAttribute fieldsAttribute)
         {
-            var keywordFieldsAttribute = fieldsAttribute as KeywordFieldsAttribute;
+            var keywordFieldsAttribute = fieldsAttribute as WithKeywordFieldsAttribute;
             if (keywordFieldsAttribute != null)
             {
                 var field = new CodeField();
@@ -130,7 +130,7 @@ namespace Panosen.ElasticSearch.Java.Engine
                 return field;
             }
 
-            var textFieldsAttribute = fieldsAttribute as TextFieldsAttribute;
+            var textFieldsAttribute = fieldsAttribute as WithTextFieldsAttribute;
             if (textFieldsAttribute != null)
             {
                 var analyzer = textFieldsAttribute.Analyzer;

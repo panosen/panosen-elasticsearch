@@ -15,7 +15,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// Generate
         /// </summary>
-        public void Generate(SortedDataObject dataObject, List<FieldsAttribute> fieldsAttributes)
+        public void Generate(SortedDataObject dataObject, List<WithFieldsAttribute> fieldsAttributes)
         {
             if (fieldsAttributes == null || fieldsAttributes.Count == 0)
             {
@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
 
             foreach (var fieldsAttribute in fieldsAttributes)
             {
-                var keywordFieldsAttribute = fieldsAttribute as KeywordFieldsAttribute;
+                var keywordFieldsAttribute = fieldsAttribute as WithKeywordFieldsAttribute;
                 if (keywordFieldsAttribute != null)
                 {
                     var mmm = dataObject.AddDataObject(DataKey.DoubleQuotationString((fieldsAttribute.Name ?? "keyword").ToLowerCaseUnderLine()));
@@ -35,7 +35,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     }
                 }
 
-                var textFieldsAttribute = fieldsAttribute as TextFieldsAttribute;
+                var textFieldsAttribute = fieldsAttribute as WithTextFieldsAttribute;
                 if (textFieldsAttribute != null)
                 {
                     var mmm = dataObject.AddDataObject(DataKey.DoubleQuotationString((fieldsAttribute.Name ?? textFieldsAttribute.Analyzer).ToLowerCaseUnderLine()));

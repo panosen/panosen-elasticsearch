@@ -29,11 +29,11 @@ namespace Panosen.ElasticSearch.MSTest
             /// with  analyzer
             /// </summary>
             [TextField]
-            [TextFields(IKAnalyzer.IK_SMART)]
-            [TextFields(IKAnalyzer.IK_MAX_WORD)]
-            [TextFields(BuiltInAnalyzer.Simple)]
-            [TextFields(BuiltInAnalyzer.Whitespace)]
-            [TextFields("ngram_1_1")]
+            [WithTextFields(IKAnalyzer.IK_SMART)]
+            [WithTextFields(IKAnalyzer.IK_MAX_WORD)]
+            [WithTextFields(BuiltInAnalyzer.Simple)]
+            [WithTextFields(BuiltInAnalyzer.Whitespace)]
+            [WithTextFields("ngram_1_1")]
             public string UseAnalyzer { get; set; }
 
             /// <summary>

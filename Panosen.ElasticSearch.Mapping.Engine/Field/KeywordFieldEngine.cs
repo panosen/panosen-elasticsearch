@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute, List<FieldsAttribute> fieldsAttributes)
+        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute, List<WithFieldsAttribute> fieldsAttributes)
         {
             if (keywordFieldAttribute.IgnoreAbove > 0)
             {

@@ -38,7 +38,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     propertyName = fieldAttribute.Name;
                 }
 
-                var fieldsAttributes = propertyInfo.GetCustomAttributes<FieldsAttribute>(false).ToList();
+                var fieldsAttributes = propertyInfo.GetCustomAttributes<WithFieldsAttribute>(false).ToList();
 
                 //如果不是 List<T>，则跳过
                 if (propertyInfo.PropertyType.IsGenericType)
@@ -62,7 +62,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             return properties;
         }
 
-        private DataObject BuildProperty(FieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes, Type propertyType, int depth)
+        private DataObject BuildProperty(FieldAttribute fieldAttribute, List<WithFieldsAttribute> fieldsAttributes, Type propertyType, int depth)
         {
             var dataObject = new DataObject();
 
@@ -78,7 +78,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             return dataObject;
         }
 
-        private void ProcessFieldAttribute(DataObject dataObject, FieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes, Type propertyType, int depth)
+        private void ProcessFieldAttribute(DataObject dataObject, FieldAttribute fieldAttribute, List<WithFieldsAttribute> fieldsAttributes, Type propertyType, int depth)
         {
             switch (fieldAttribute.FieldType)
             {
