@@ -17,21 +17,6 @@ namespace Panosen.ElasticSearch
         public override FieldType FieldType => FieldType.Text;
 
         /// <summary>
-        /// 内置分词器
-        /// </summary>
-        public BuiltInAnalyzer BuiltInAnalyzer { get; set; }
-
-        /// <summary>
-        /// IK分词器
-        /// </summary>
-        public IKAnalyzer IKAnalyzer { get; set; }
-
-        /// <summary>
-        /// 自定义分词器
-        /// </summary>
-        public string[] CustomAnalyzer { get; set; }
-
-        /// <summary>
         /// 默认分析器
         /// </summary>
         public string DefaultAnalyzer { get; private set; }

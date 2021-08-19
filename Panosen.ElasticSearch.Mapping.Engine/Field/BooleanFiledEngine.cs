@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, BooleanFieldAttribute booleanFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, BooleanFieldAttribute booleanFieldAttribute, List<FieldsAttribute> fieldsAttributes)
         {
         }
     }

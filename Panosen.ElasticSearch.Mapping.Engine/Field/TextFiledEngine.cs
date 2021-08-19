@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// Generate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, TextFieldAttribute textFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, TextFieldAttribute textFieldAttribute, List<FieldsAttribute> fieldsAttributes)
         {
             if (!string.IsNullOrEmpty(textFieldAttribute.DefaultAnalyzer))
             {
@@ -38,7 +38,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
 
             //analyzer
             var sortedDataObject = new SortedDataObject();
-            new AnalyzerEngine().Generate(sortedDataObject, textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);
+            new AnalyzerEngine().Generate(sortedDataObject, fieldsAttributes);
             if (sortedDataObject.DataItemMap != null && sortedDataObject.DataItemMap.Count > 0)
             {
                 dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"), sortedDataObject);

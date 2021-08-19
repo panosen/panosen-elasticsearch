@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, ObjectFieldAttribute objectFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, ObjectFieldAttribute objectFieldAttribute, List<FieldsAttribute> fieldsAttributes)
         {
             switch (objectFieldAttribute.Dynamic)
             {

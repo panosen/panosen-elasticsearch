@@ -31,11 +31,14 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             foreach (var propertyInfo in propertyInfos)
             {
                 var propertyName = propertyInfo.Name.ToLowerCaseUnderLine();
+
                 var fieldAttribute = propertyInfo.GetCustomAttribute<FieldAttribute>(false);
                 if (fieldAttribute != null && !string.IsNullOrEmpty(fieldAttribute.Name))
                 {
                     propertyName = fieldAttribute.Name;
                 }
+
+                var fieldsAttributes = propertyInfo.GetCustomAttributes<FieldsAttribute>(false).ToList();
 
                 //如果不是 List<T>，则跳过
                 if (propertyInfo.PropertyType.IsGenericType)
@@ -46,12 +49,12 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                         continue;
                     }
 
-                    var dataObject = BuildProperty(fieldAttribute, propertyInfo.PropertyType.GenericTypeArguments[0], depth);
+                    var dataObject = BuildProperty(fieldAttribute, fieldsAttributes, propertyInfo.PropertyType.GenericTypeArguments[0], depth);
                     properties.AddDataObject(DataKey.DoubleQuotationString(propertyName), dataObject);
                 }
                 else
                 {
-                    var dataObject = BuildProperty(fieldAttribute, propertyInfo.PropertyType, depth);
+                    var dataObject = BuildProperty(fieldAttribute, fieldsAttributes, propertyInfo.PropertyType, depth);
                     properties.AddDataObject(DataKey.DoubleQuotationString(propertyName), dataObject);
                 }
             }
@@ -59,13 +62,13 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             return properties;
         }
 
-        private DataObject BuildProperty(FieldAttribute fieldAttribute, Type propertyType, int depth)
+        private DataObject BuildProperty(FieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes, Type propertyType, int depth)
         {
             var dataObject = new DataObject();
 
             if (fieldAttribute != null)
             {
-                ProcessFieldAttribute(dataObject, fieldAttribute, propertyType, depth);
+                ProcessFieldAttribute(dataObject, fieldAttribute, fieldsAttributes, propertyType, depth);
             }
             else
             {
@@ -75,43 +78,43 @@ namespace Panosen.ElasticSearch.Mapping.Engine
             return dataObject;
         }
 
-        private void ProcessFieldAttribute(DataObject dataObject, FieldAttribute fieldAttribute, Type propertyType, int depth)
+        private void ProcessFieldAttribute(DataObject dataObject, FieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes, Type propertyType, int depth)
         {
             switch (fieldAttribute.FieldType)
             {
                 case FieldType.Integer:
                     {
-                        new IntegerFiledEngine().Generate(dataObject, fieldAttribute as IntegerFieldAttribute);
+                        new IntegerFiledEngine().Generate(dataObject, fieldAttribute as IntegerFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.Boolean:
                     {
-                        new BooleanFiledEngine().Generate(dataObject, fieldAttribute as BooleanFieldAttribute);
+                        new BooleanFiledEngine().Generate(dataObject, fieldAttribute as BooleanFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.Long:
                     {
-                        new LongFiledEngine().Generate(dataObject, fieldAttribute as LongFieldAttribute);
+                        new LongFiledEngine().Generate(dataObject, fieldAttribute as LongFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.Keyword:
                     {
-                        new KeywordFiledEngine().Generate(dataObject, fieldAttribute as KeywordFieldAttribute);
+                        new KeywordFieldEngine().Generate(dataObject, fieldAttribute as KeywordFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.Text:
                     {
-                        new TextFiledEngine().Generate(dataObject, fieldAttribute as TextFieldAttribute);
+                        new TextFiledEngine().Generate(dataObject, fieldAttribute as TextFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.GeoPoint:
                     {
-                        new GeoPointFiledEngine().Generate(dataObject, fieldAttribute as GeoPointFieldAttribute);
+                        new GeoPointFiledEngine().Generate(dataObject, fieldAttribute as GeoPointFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.Object:
                     {
-                        new ObjectFiledEngine().Generate(dataObject, fieldAttribute as ObjectFieldAttribute);
+                        new ObjectFiledEngine().Generate(dataObject, fieldAttribute as ObjectFieldAttribute, fieldsAttributes);
                     }
                     break;
                 case FieldType.NestedObject:
@@ -127,7 +130,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                     break;
                 default:
                     {
-                        new FieldEngine().Generate(dataObject, fieldAttribute);
+                        new FieldEngine().Generate(dataObject, fieldAttribute, fieldsAttributes);
                     }
                     break;
             }

@@ -11,7 +11,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
     /// <summary>
     /// KeywordFiledEngine
     /// </summary>
-    public class KeywordFiledEngine : FieldEngine<KeywordFieldAttribute>
+    public class KeywordFieldEngine : FieldEngine<KeywordFieldAttribute>
     {
         /// <summary>
         /// OnGenerateType
@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, KeywordFieldAttribute keywordFieldAttribute, List<FieldsAttribute> fieldsAttributes)
         {
             if (keywordFieldAttribute.IgnoreAbove > 0)
             {
@@ -36,13 +36,11 @@ namespace Panosen.ElasticSearch.Mapping.Engine
                 dataObject.AddDataValue(DataKey.DoubleQuotationString("null_value"), keywordFieldAttribute.NullValue);
             }
 
-            if (keywordFieldAttribute.BuiltInAnalyzer != BuiltInAnalyzer.None ||
-                keywordFieldAttribute.IKAnalyzer != IKAnalyzer.None ||
-                (keywordFieldAttribute.CustomAnalyzer != null && keywordFieldAttribute.CustomAnalyzer.Length > 0))
+            SortedDataObject sortedDataObject = new SortedDataObject();
+            new AnalyzerEngine().Generate(sortedDataObject, fieldsAttributes);
+            if (sortedDataObject.DataItemMap != null && sortedDataObject.DataItemMap.Count > 0)
             {
-                SortedDataObject sortedDataObject = dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"));
-
-                new AnalyzerEngine().Generate(sortedDataObject, keywordFieldAttribute.BuiltInAnalyzer, keywordFieldAttribute.IKAnalyzer, keywordFieldAttribute.CustomAnalyzer);
+                dataObject.AddSortedDataObject(DataKey.DoubleQuotationString("fields"), sortedDataObject);
             }
         }
     }

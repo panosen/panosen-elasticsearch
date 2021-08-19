@@ -28,13 +28,18 @@ namespace Panosen.ElasticSearch.MSTest
             /// <summary>
             /// 使用 keyword
             /// </summary>
-            [KeywordField(Index = Index.False, IgnoreAbove = 128, IKAnalyzer = IKAnalyzer.IK_SMART)]
+            [KeywordField(Index = Index.False, IgnoreAbove = 128)]
+            [TextFields(IKAnalyzer.IK_SMART)]
             public string UseKeyword { get; set; }
 
             /// <summary>
             /// 使用 text
             /// </summary>
-            [TextField(IKAnalyzer = IKAnalyzer.IK_MAX_WORD)]
+            [TextField]
+            [TextFields(IKAnalyzer.IK_MAX_WORD)]
+            [KeywordFields]
+            [KeywordFields(Name = "TestCase")]
+            [KeywordFields(Name = "SampleCase", IgnoreAbove = 256)]
             public string UseText { get; set; }
         }
 
@@ -126,6 +131,21 @@ public final class BookFields {
      * UseText(with `ik_max_word` analyzer)
      */
     public final static String USE_TEXT_IK_MAX_WORD = ""use_text.ik_max_word"";
+
+    /**
+     * UseText(type: keyword)
+     */
+    public final static String USE_TEXT_KEYWORD = ""use_text.keyword"";
+
+    /**
+     * UseText(type: keyword)
+     */
+    public final static String USE_TEXT_SAMPLE_CASE = ""use_text.sample_case"";
+
+    /**
+     * UseText(type: keyword)
+     */
+    public final static String USE_TEXT_TEST_CASE = ""use_text.test_case"";
 }
 ";
         }
@@ -247,6 +267,16 @@ public class Book {
             ""ik_max_word"": {
               ""type"": ""text"",
               ""analyzer"": ""ik_max_word""
+            },
+            ""keyword"": {
+              ""type"": ""keyword""
+            },
+            ""sample_case"": {
+              ""type"": ""keyword"",
+              ""ignore_above"": 256
+            },
+            ""test_case"": {
+              ""type"": ""keyword""
             }
           }
         }

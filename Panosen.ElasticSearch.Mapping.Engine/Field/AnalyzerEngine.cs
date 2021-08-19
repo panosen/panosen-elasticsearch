@@ -15,45 +15,33 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// Generate
         /// </summary>
-        public void Generate(SortedDataObject dataObject, BuiltInAnalyzer builtInAnalyzer, IKAnalyzer iKAnalyzer, string[] customAnalyzer)
+        public void Generate(SortedDataObject dataObject, List<FieldsAttribute> fieldsAttributes)
         {
-            //分词器
-            List<string> analyzers = new List<string>();
-
-            //内置分词器
-            var builtInAnalyzers = builtInAnalyzer
-                .ToString()
-                .ToLower()
-                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
-                .OrderBy(x => x)
-                .ToList();
-            analyzers.AddRange(builtInAnalyzers);
-
-            //ik分词器
-            var ikAnalyzers = iKAnalyzer
-                .ToString()
-                .ToLower()
-                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
-                .OrderBy(x => x)
-                .ToList();
-            analyzers.AddRange(ikAnalyzers);
-
-            //自定义分词器
-            if (customAnalyzer != null && customAnalyzer.Length > 0)
+            if (fieldsAttributes == null || fieldsAttributes.Count == 0)
             {
-                analyzers.AddRange(customAnalyzer);
+                return;
             }
 
-            foreach (var analyzer in analyzers)
+            foreach (var fieldsAttribute in fieldsAttributes)
             {
-                if ("none".Equals(analyzer, StringComparison.OrdinalIgnoreCase))
+                var keywordFieldsAttribute = fieldsAttribute as KeywordFieldsAttribute;
+                if (keywordFieldsAttribute != null)
                 {
-                    continue;
+                    var mmm = dataObject.AddDataObject(DataKey.DoubleQuotationString((fieldsAttribute.Name ?? "keyword").ToLowerCaseUnderLine()));
+                    mmm.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("keyword"));
+                    if (keywordFieldsAttribute.IgnoreAbove > 0)
+                    {
+                        mmm.AddDataValue(DataKey.DoubleQuotationString("ignore_above"), keywordFieldsAttribute.IgnoreAbove);
+                    }
                 }
 
-                var mmm = dataObject.AddDataObject(DataKey.DoubleQuotationString(analyzer));
-                mmm.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("text"));
-                mmm.AddDataValue(DataKey.DoubleQuotationString("analyzer"), DataValue.DoubleQuotationString(analyzer));
+                var textFieldsAttribute = fieldsAttribute as TextFieldsAttribute;
+                if (textFieldsAttribute != null)
+                {
+                    var mmm = dataObject.AddDataObject(DataKey.DoubleQuotationString((fieldsAttribute.Name ?? textFieldsAttribute.Analyzer).ToLowerCaseUnderLine()));
+                    mmm.AddDataValue(DataKey.DoubleQuotationString("type"), DataValue.DoubleQuotationString("text"));
+                    mmm.AddDataValue(DataKey.DoubleQuotationString("analyzer"), DataValue.DoubleQuotationString(textFieldsAttribute.Analyzer));
+                }
             }
         }
     }

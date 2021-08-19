@@ -24,7 +24,7 @@ namespace Panosen.ElasticSearch.Mapping.Engine
         /// <summary>
         /// OnGenerate
         /// </summary>
-        protected override void OnGenerate(DataObject dataObject, GeoPointFieldAttribute integerFieldAttribute)
+        protected override void OnGenerate(DataObject dataObject, GeoPointFieldAttribute integerFieldAttribute, List<FieldsAttribute> fieldsAttributes)
         {
         }
     }

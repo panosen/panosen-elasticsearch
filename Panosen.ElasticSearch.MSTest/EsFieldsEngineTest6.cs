@@ -28,10 +28,12 @@ namespace Panosen.ElasticSearch.MSTest
             /// <summary>
             /// with  analyzer
             /// </summary>
-            [TextField(
-                IKAnalyzer = IKAnalyzer.IK_SMART | IKAnalyzer.IK_MAX_WORD,
-                BuiltInAnalyzer = BuiltInAnalyzer.Simple | BuiltInAnalyzer.Whitespace,
-                CustomAnalyzer = new string[] { "ngram_1_1" })]
+            [TextField]
+            [TextFields(IKAnalyzer.IK_SMART)]
+            [TextFields(IKAnalyzer.IK_MAX_WORD)]
+            [TextFields(BuiltInAnalyzer.Simple)]
+            [TextFields(BuiltInAnalyzer.Whitespace)]
+            [TextFields("ngram_1_1")]
             public string UseAnalyzer { get; set; }
 
             /// <summary>
@@ -116,16 +118,6 @@ public final class BookFields {
     public final static String USE_ANALYZER = ""use_analyzer"";
 
     /**
-     * UseAnalyzer(with `simple` analyzer)
-     */
-    public final static String USE_ANALYZER_SIMPLE = ""use_analyzer.simple"";
-
-    /**
-     * UseAnalyzer(with `whitespace` analyzer)
-     */
-    public final static String USE_ANALYZER_WHITESPACE = ""use_analyzer.whitespace"";
-
-    /**
      * UseAnalyzer(with `ik_max_word` analyzer)
      */
     public final static String USE_ANALYZER_IK_MAX_WORD = ""use_analyzer.ik_max_word"";
@@ -139,6 +131,16 @@ public final class BookFields {
      * UseAnalyzer(with `ngram_1_1` analyzer)
      */
     public final static String USE_ANALYZER_NGRAM_1_1 = ""use_analyzer.ngram_1_1"";
+
+    /**
+     * UseAnalyzer(with `simple` analyzer)
+     */
+    public final static String USE_ANALYZER_SIMPLE = ""use_analyzer.simple"";
+
+    /**
+     * UseAnalyzer(with `whitespace` analyzer)
+     */
+    public final static String USE_ANALYZER_WHITESPACE = ""use_analyzer.whitespace"";
 
     /**
      * WithDefaultAnalyzer

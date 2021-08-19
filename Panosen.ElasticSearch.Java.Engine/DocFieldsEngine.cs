@@ -47,30 +47,60 @@ namespace Panosen.ElasticSearch.Java.Engine
 
             foreach (var propertyNode in docFields.ClassNode.PropertyNodeList)
             {
-                ProcessProperty(codeClass, propertyNode);
+                var propertyName = propertyNode.Name;
+                var propertySummary = propertyNode.Summary;
+                var propertyType = propertyNode.PropertyType;
+
+                var fieldAttribute = propertyNode.Attributes.FirstOrDefault(v => v is FieldAttribute) as FieldAttribute;
+                var fieldsAttribute = propertyNode.Attributes.Where(v => v is FieldsAttribute).Select(v => v as FieldsAttribute).ToList();
+
+                codeClass.AddField(JavaTypeConstant.STRING, propertyName.ToUpperCaseUnderLine(),
+                    accessModifiers: AccessModifiers.Public,
+                    isStatic: true,
+                    isFinal: true,
+                    summary: propertySummary ?? propertyName)
+                    .AddStringValue(propertyName.ToLowerCaseUnderLine());
+
+                if (fieldAttribute != null)
+                {
+                    ProcessFieldAttribute(codeClass, propertyName, propertySummary, fieldAttribute, fieldsAttribute);
+                }
+                else
+                {
+                    ProcessProperty(codeClass, propertyName, propertySummary, propertyType);
+                }
             }
         }
 
-        private void ProcessProperty(CodeClass codeClass, PropertyNode propertyNode)
+        private void ProcessFieldAttribute(CodeClass codeClass, string propertyName, string propertySummary, FieldAttribute fieldAttribute, List<FieldsAttribute> fieldsAttributes)
         {
-            codeClass.AddField(JavaTypeConstant.STRING, propertyNode.Name.ToUpperCaseUnderLine(),
-                accessModifiers: AccessModifiers.Public,
-                isStatic: true,
-                isFinal: true,
-                summary: propertyNode.Summary ?? propertyNode.Name)
-                .AddStringValue(propertyNode.Name.ToLowerCaseUnderLine());
-
-            if (propertyNode.Attributes != null && propertyNode.Attributes.Count != 0)
+            if (fieldAttribute == null)
             {
-                ProcessFieldAttribute(codeClass, propertyNode.Name, propertyNode.Summary, propertyNode.Attributes[0] as FieldAttribute);
+                return;
             }
-            else
+
+            if (fieldsAttributes == null || fieldsAttributes.Count == 0)
             {
-                ProcessType(codeClass, propertyNode.Name, propertyNode.Summary, propertyNode.PropertyType);
+                return;
+            }
+
+            if (fieldAttribute is KeywordFieldAttribute || fieldAttribute is TextFieldAttribute)
+            {
+                List<CodeField> temps = new List<CodeField>();
+                foreach (var item in fieldsAttributes)
+                {
+                    var temp = ProcessFields(codeClass, propertyName, propertySummary, item);
+                    if (temp == null)
+                    {
+                        continue;
+                    }
+                    temps.Add(temp);
+                }
+                codeClass.AddFields(temps.OrderBy(x => x.Name).ToList());
             }
         }
 
-        private void ProcessType(CodeClass codeClass, string propertyName, string propertySummary, Type propertyType)
+        private void ProcessProperty(CodeClass codeClass, string propertyName, string propertySummary, Type propertyType)
         {
             if (propertyType == typeof(string))
             {
@@ -83,75 +113,42 @@ namespace Panosen.ElasticSearch.Java.Engine
             }
         }
 
-        private void ProcessFieldAttribute(CodeClass codeClass, string propertyName, string propertySummary, FieldAttribute fieldAttribute)
+        private CodeField ProcessFields(CodeClass codeClass, string propertyName, string propertySummary, FieldsAttribute fieldsAttribute)
         {
-            if (fieldAttribute == null)
+            var keywordFieldsAttribute = fieldsAttribute as KeywordFieldsAttribute;
+            if (keywordFieldsAttribute != null)
             {
-                return;
+                var field = new CodeField();
+                field.Name = $"{propertyName.ToUpperCaseUnderLine()}_{(keywordFieldsAttribute.Name ?? "Keyword").ToUpperCaseUnderLine()}";
+                field.Summary = $"{propertySummary ?? propertyName}(type: keyword)";
+                field.AddStringValue($"{propertyName.ToLowerCaseUnderLine()}.{(keywordFieldsAttribute.Name ?? "Keyword").ToLowerCaseUnderLine()}");
+                field.AccessModifiers = AccessModifiers.Public;
+                field.Type = JavaTypeConstant.STRING;
+                field.IsStatic = true;
+                field.IsFinal = true;
+
+                return field;
             }
 
-            var textFieldAttribute = fieldAttribute as TextFieldAttribute;
-            if (textFieldAttribute != null)
+            var textFieldsAttribute = fieldsAttribute as TextFieldsAttribute;
+            if (textFieldsAttribute != null)
             {
-                ProcessAnalyzer(codeClass, propertyName, propertySummary,
-                    textFieldAttribute.BuiltInAnalyzer, textFieldAttribute.IKAnalyzer, textFieldAttribute.CustomAnalyzer);
+                var analyzer = textFieldsAttribute.Analyzer;
+
+                var field = new CodeField();
+                field.Name = $"{propertyName.ToUpperCaseUnderLine()}_{analyzer.ToUpperCaseUnderLine()}";
+                field.Summary = $"{propertySummary ?? propertyName}(with `{analyzer}` analyzer)";
+                field.AddStringValue($"{propertyName.ToLowerCaseUnderLine()}.{analyzer}");
+                field.AccessModifiers = AccessModifiers.Public;
+                field.Type = JavaTypeConstant.STRING;
+                field.IsStatic = true;
+                field.IsFinal = true;
+
+                return field;
             }
 
-            var keywordFieldAttribute = fieldAttribute as KeywordFieldAttribute;
-            if (keywordFieldAttribute != null)
-            {
-                ProcessAnalyzer(codeClass, propertyName, propertySummary,
-                    keywordFieldAttribute.BuiltInAnalyzer, keywordFieldAttribute.IKAnalyzer, keywordFieldAttribute.CustomAnalyzer);
-            }
+            return null;
         }
-        /// <summary>
-        /// ProcessAnalyzer
-        /// </summary>
-        public void ProcessAnalyzer(CodeClass codeClass, string propertyName, string propertySummary, BuiltInAnalyzer builtInAnalyzer, IKAnalyzer iKAnalyzer, string[] customAnalyzer)
-        {
-            //分词器
-            List<string> analyzers = new List<string>();
-
-            //内置分词器
-            var builtInAnalyzers = builtInAnalyzer
-                .ToString()
-                .ToLower()
-                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
-                .OrderBy(x => x)
-                .ToList();
-            analyzers.AddRange(builtInAnalyzers);
-
-            //ik分词器
-            var ikAnalyzers = iKAnalyzer
-                .ToString()
-                .ToLower()
-                .Split(new string[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries)
-                .OrderBy(x => x)
-                .ToList();
-            analyzers.AddRange(ikAnalyzers);
-
-            //自定义分词器
-            if (customAnalyzer != null && customAnalyzer.Length > 0)
-            {
-                analyzers.AddRange(customAnalyzer);
-            }
-
-            foreach (var analyzer in analyzers)
-            {
-                if ("none".Equals(analyzer, StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                codeClass.AddField(JavaTypeConstant.STRING, $"{propertyName.ToUpperCaseUnderLine()}_{analyzer.ToUpperCaseUnderLine()}",
-                    accessModifiers: AccessModifiers.Public,
-                    isStatic: true,
-                    isFinal: true,
-                    summary: $"{propertySummary ?? propertyName}(with `{analyzer}` analyzer)")
-                    .AddStringValue($"{propertyName.ToLowerCaseUnderLine()}.{analyzer}");
-            }
-        }
-
 
         private static Index CalcIndexMe(PropertyNode propertyNode)
         {
