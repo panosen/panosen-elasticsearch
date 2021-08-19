@@ -53,12 +53,6 @@ namespace Panosen.ElasticSearch.Java.Engine
 
         private void ProcessProperty(CodeClass codeClass, PropertyNode propertyNode)
         {
-            var indexMe = CalcIndexMe(propertyNode);
-            if (indexMe == Index.False)
-            {
-                return;
-            }
-
             codeClass.AddField(JavaTypeConstant.STRING, propertyNode.Name.ToUpperCaseUnderLine(),
                 accessModifiers: AccessModifiers.Public,
                 isStatic: true,

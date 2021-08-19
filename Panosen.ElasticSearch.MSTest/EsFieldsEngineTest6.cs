@@ -101,6 +101,11 @@ namespace Panosen.ElasticSearch.MSTest
 public final class BookFields {
 
     /**
+     * NotIndexMe
+     */
+    public final static String NOT_INDEX_ME = ""not_index_me"";
+
+    /**
      * WithNullValue
      */
     public final static String WITH_NULL_VALUE = ""with_null_value"";

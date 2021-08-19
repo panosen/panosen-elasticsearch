@@ -28,7 +28,7 @@ namespace Panosen.ElasticSearch.MSTest
             /// <summary>
             /// สนำร keyword
             /// </summary>
-            [KeywordField(IgnoreAbove = 128, IKAnalyzer = IKAnalyzer.IK_SMART)]
+            [KeywordField(Index = Index.False, IgnoreAbove = 128, IKAnalyzer = IKAnalyzer.IK_SMART)]
             public string UseKeyword { get; set; }
 
             /// <summary>
@@ -229,6 +229,7 @@ public class Book {
         },
         ""use_keyword"": {
           ""type"": ""keyword"",
+          ""index"": false,
           ""ignore_above"": 128,
           ""fields"": {
             ""ik_smart"": {

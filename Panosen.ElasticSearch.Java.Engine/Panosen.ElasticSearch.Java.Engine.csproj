@@ -4,7 +4,7 @@
     <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
     <AssemblyName>Panosen.ElasticSearch.Java.Engine</AssemblyName>
     <RootNamespace>Panosen.ElasticSearch.Java.Engine</RootNamespace>
-    <Version>0.3.3</Version>
+    <Version>0.3.4</Version>
     <Authors>harriszhang@live.cn</Authors>
     <Company>harriszhang@live.cn</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
