@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Panosen.Reflection" Version="0.2.2" />
+    <PackageReference Include="Panosen.Reflection" Version="0.3.0" />
   </ItemGroup>
 
   <ItemGroup>
