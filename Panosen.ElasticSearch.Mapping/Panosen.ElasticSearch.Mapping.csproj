@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Panosen.CodeDom.JavaScript.Engine" Version="1.1.0" />
-    <PackageReference Include="Panosen.Text.Extension" Version="1.0.0" />
+    <PackageReference Include="Panosen.Text.Extension" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
