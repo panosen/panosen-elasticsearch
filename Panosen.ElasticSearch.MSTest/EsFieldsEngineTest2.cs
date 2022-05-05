@@ -178,58 +178,34 @@ public class Book {
     @SerializedName(""use_text"")
     private String useText;
 
-    /**
-     * Get 
-     */
     public Integer getUseInteger() {
         return useInteger;
     }
 
-    /**
-     * Set 
-     */
     public void setUseInteger(Integer useInteger) {
         this.useInteger = useInteger;
     }
 
-    /**
-     * Get 
-     */
     public Long getUseLong() {
         return useLong;
     }
 
-    /**
-     * Set 
-     */
     public void setUseLong(Long useLong) {
         this.useLong = useLong;
     }
 
-    /**
-     * Get 
-     */
     public String getUseKeyword() {
         return useKeyword;
     }
 
-    /**
-     * Set 
-     */
     public void setUseKeyword(String useKeyword) {
         this.useKeyword = useKeyword;
     }
 
-    /**
-     * Get 
-     */
     public String getUseText() {
         return useText;
     }
 
-    /**
-     * Set 
-     */
     public void setUseText(String useText) {
         this.useText = useText;
     }

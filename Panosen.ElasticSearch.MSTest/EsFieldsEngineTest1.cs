@@ -164,72 +164,42 @@ public class Book {
     @SerializedName(""name"")
     private String name;
 
-    /**
-     * Get 
-     */
     public Integer getAssumeInt() {
         return assumeInt;
     }
 
-    /**
-     * Set 
-     */
     public void setAssumeInt(Integer assumeInt) {
         this.assumeInt = assumeInt;
     }
 
-    /**
-     * Get 
-     */
     public Long getAssumeLong() {
         return assumeLong;
     }
 
-    /**
-     * Set 
-     */
     public void setAssumeLong(Long assumeLong) {
         this.assumeLong = assumeLong;
     }
 
-    /**
-     * Get 
-     */
     public String getAssumeText() {
         return assumeText;
     }
 
-    /**
-     * Set 
-     */
     public void setAssumeText(String assumeText) {
         this.assumeText = assumeText;
     }
 
-    /**
-     * Get 
-     */
     public java.util.Date getTimestamp() {
         return timestamp;
     }
 
-    /**
-     * Set 
-     */
     public void setTimestamp(java.util.Date timestamp) {
         this.timestamp = timestamp;
     }
 
-    /**
-     * Get 
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Set 
-     */
     public void setName(String name) {
         this.name = name;
     }

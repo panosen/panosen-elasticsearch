@@ -152,58 +152,34 @@ public class Book {
     @SerializedName(""nested_brand_list"")
     private java.util.List<Brand> nestedBrandList;
 
-    /**
-     * Get 
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * Set 
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * Get 
-     */
     public Brand getBrand() {
         return brand;
     }
 
-    /**
-     * Set 
-     */
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
 
-    /**
-     * Get 
-     */
     public java.util.List<Brand> getBrandList() {
         return brandList;
     }
 
-    /**
-     * Set 
-     */
     public void setBrandList(java.util.List<Brand> brandList) {
         this.brandList = brandList;
     }
 
-    /**
-     * Get 
-     */
     public java.util.List<Brand> getNestedBrandList() {
         return nestedBrandList;
     }
 
-    /**
-     * Set 
-     */
     public void setNestedBrandList(java.util.List<Brand> nestedBrandList) {
         this.nestedBrandList = nestedBrandList;
     }

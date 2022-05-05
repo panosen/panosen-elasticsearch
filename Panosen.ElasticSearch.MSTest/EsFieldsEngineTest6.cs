@@ -178,58 +178,34 @@ public class Book {
     @SerializedName(""with_default_analyzer"")
     private String withDefaultAnalyzer;
 
-    /**
-     * Get 
-     */
     public String getNotIndexMe() {
         return notIndexMe;
     }
 
-    /**
-     * Set 
-     */
     public void setNotIndexMe(String notIndexMe) {
         this.notIndexMe = notIndexMe;
     }
 
-    /**
-     * Get 
-     */
     public String getWithNullValue() {
         return withNullValue;
     }
 
-    /**
-     * Set 
-     */
     public void setWithNullValue(String withNullValue) {
         this.withNullValue = withNullValue;
     }
 
-    /**
-     * Get 
-     */
     public String getUseAnalyzer() {
         return useAnalyzer;
     }
 
-    /**
-     * Set 
-     */
     public void setUseAnalyzer(String useAnalyzer) {
         this.useAnalyzer = useAnalyzer;
     }
 
-    /**
-     * Get 
-     */
     public String getWithDefaultAnalyzer() {
         return withDefaultAnalyzer;
     }
 
-    /**
-     * Set 
-     */
     public void setWithDefaultAnalyzer(String withDefaultAnalyzer) {
         this.withDefaultAnalyzer = withDefaultAnalyzer;
     }

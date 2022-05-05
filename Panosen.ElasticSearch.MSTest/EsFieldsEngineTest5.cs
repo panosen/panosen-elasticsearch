@@ -149,58 +149,34 @@ public class Book {
     @SerializedName(""tag"")
     private Object tag;
 
-    /**
-     * Get 
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     * Set 
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * Get 
-     */
     public Object getBrand() {
         return brand;
     }
 
-    /**
-     * Set 
-     */
     public void setBrand(Object brand) {
         this.brand = brand;
     }
 
-    /**
-     * Get 
-     */
     public Object getCategory() {
         return category;
     }
 
-    /**
-     * Set 
-     */
     public void setCategory(Object category) {
         this.category = category;
     }
 
-    /**
-     * Get 
-     */
     public Object getTag() {
         return tag;
     }
 
-    /**
-     * Set 
-     */
     public void setTag(Object tag) {
         this.tag = tag;
     }
