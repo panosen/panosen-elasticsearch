@@ -103,32 +103,32 @@ public final class BookFields {
     /**
      * AssumeInt
      */
-    public final static String ASSUME_INT = ""assume_int"";
+    public static final String ASSUME_INT = ""assume_int"";
 
     /**
      * AssumeLong
      */
-    public final static String ASSUME_LONG = ""assume_long"";
+    public static final String ASSUME_LONG = ""assume_long"";
 
     /**
      * AssumeText
      */
-    public final static String ASSUME_TEXT = ""assume_text"";
+    public static final String ASSUME_TEXT = ""assume_text"";
 
     /**
      * AssumeText.Keyword
      */
-    public final static String ASSUME_TEXT_KEYWORD = ""assume_text.keyword"";
+    public static final String ASSUME_TEXT_KEYWORD = ""assume_text.keyword"";
 
     /**
      * Timestamp
      */
-    public final static String TIMESTAMP = ""timestamp"";
+    public static final String TIMESTAMP = ""timestamp"";
 
     /**
      * Name
      */
-    public final static String NAME = ""name"";
+    public static final String NAME = ""name"";
 }
 ";
         }

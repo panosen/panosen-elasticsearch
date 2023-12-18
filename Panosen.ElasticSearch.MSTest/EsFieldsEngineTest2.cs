@@ -105,47 +105,47 @@ public final class BookFields {
     /**
      * UseInteger
      */
-    public final static String USE_INTEGER = ""use_integer"";
+    public static final String USE_INTEGER = ""use_integer"";
 
     /**
      * UseLong
      */
-    public final static String USE_LONG = ""use_long"";
+    public static final String USE_LONG = ""use_long"";
 
     /**
      * UseKeyword
      */
-    public final static String USE_KEYWORD = ""use_keyword"";
+    public static final String USE_KEYWORD = ""use_keyword"";
 
     /**
      * UseKeyword(with `ik_smart` analyzer)
      */
-    public final static String USE_KEYWORD_IK_SMART = ""use_keyword.ik_smart"";
+    public static final String USE_KEYWORD_IK_SMART = ""use_keyword.ik_smart"";
 
     /**
      * UseText
      */
-    public final static String USE_TEXT = ""use_text"";
+    public static final String USE_TEXT = ""use_text"";
 
     /**
      * UseText(with `ik_max_word` analyzer)
      */
-    public final static String USE_TEXT_IK_MAX_WORD = ""use_text.ik_max_word"";
+    public static final String USE_TEXT_IK_MAX_WORD = ""use_text.ik_max_word"";
 
     /**
      * UseText(type: keyword)
      */
-    public final static String USE_TEXT_KEYWORD = ""use_text.keyword"";
+    public static final String USE_TEXT_KEYWORD = ""use_text.keyword"";
 
     /**
      * UseText(type: keyword)
      */
-    public final static String USE_TEXT_SAMPLE_CASE = ""use_text.sample_case"";
+    public static final String USE_TEXT_SAMPLE_CASE = ""use_text.sample_case"";
 
     /**
      * UseText(type: keyword)
      */
-    public final static String USE_TEXT_TEST_CASE = ""use_text.test_case"";
+    public static final String USE_TEXT_TEST_CASE = ""use_text.test_case"";
 }
 ";
         }

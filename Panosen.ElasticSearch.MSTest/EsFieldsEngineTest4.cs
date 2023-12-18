@@ -104,22 +104,22 @@ public final class BookFields {
     /**
      * Id
      */
-    public final static String ID = ""id"";
+    public static final String ID = ""id"";
 
     /**
      * Brand
      */
-    public final static String BRAND = ""brand"";
+    public static final String BRAND = ""brand"";
 
     /**
      * BrandList
      */
-    public final static String BRAND_LIST = ""brand_list"";
+    public static final String BRAND_LIST = ""brand_list"";
 
     /**
      * NestedBrandList
      */
-    public final static String NESTED_BRAND_LIST = ""nested_brand_list"";
+    public static final String NESTED_BRAND_LIST = ""nested_brand_list"";
 }
 ";
         }

@@ -101,22 +101,22 @@ public final class BookFields {
     /**
      * Id
      */
-    public final static String ID = ""id"";
+    public static final String ID = ""id"";
 
     /**
      * Brand
      */
-    public final static String BRAND = ""brand"";
+    public static final String BRAND = ""brand"";
 
     /**
      * Category
      */
-    public final static String CATEGORY = ""category"";
+    public static final String CATEGORY = ""category"";
 
     /**
      * Tag
      */
-    public final static String TAG = ""tag"";
+    public static final String TAG = ""tag"";
 }
 ";
         }

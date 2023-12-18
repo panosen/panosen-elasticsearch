@@ -105,47 +105,47 @@ public final class BookFields {
     /**
      * NotIndexMe
      */
-    public final static String NOT_INDEX_ME = ""not_index_me"";
+    public static final String NOT_INDEX_ME = ""not_index_me"";
 
     /**
      * WithNullValue
      */
-    public final static String WITH_NULL_VALUE = ""with_null_value"";
+    public static final String WITH_NULL_VALUE = ""with_null_value"";
 
     /**
      * UseAnalyzer
      */
-    public final static String USE_ANALYZER = ""use_analyzer"";
+    public static final String USE_ANALYZER = ""use_analyzer"";
 
     /**
      * UseAnalyzer(with `ik_max_word` analyzer)
      */
-    public final static String USE_ANALYZER_IK_MAX_WORD = ""use_analyzer.ik_max_word"";
+    public static final String USE_ANALYZER_IK_MAX_WORD = ""use_analyzer.ik_max_word"";
 
     /**
      * UseAnalyzer(with `ik_smart` analyzer)
      */
-    public final static String USE_ANALYZER_IK_SMART = ""use_analyzer.ik_smart"";
+    public static final String USE_ANALYZER_IK_SMART = ""use_analyzer.ik_smart"";
 
     /**
      * UseAnalyzer(with `ngram_1_1` analyzer)
      */
-    public final static String USE_ANALYZER_NGRAM_1_1 = ""use_analyzer.ngram_1_1"";
+    public static final String USE_ANALYZER_NGRAM_1_1 = ""use_analyzer.ngram_1_1"";
 
     /**
      * UseAnalyzer(with `simple` analyzer)
      */
-    public final static String USE_ANALYZER_SIMPLE = ""use_analyzer.simple"";
+    public static final String USE_ANALYZER_SIMPLE = ""use_analyzer.simple"";
 
     /**
      * UseAnalyzer(with `whitespace` analyzer)
      */
-    public final static String USE_ANALYZER_WHITESPACE = ""use_analyzer.whitespace"";
+    public static final String USE_ANALYZER_WHITESPACE = ""use_analyzer.whitespace"";
 
     /**
      * WithDefaultAnalyzer
      */
-    public final static String WITH_DEFAULT_ANALYZER = ""with_default_analyzer"";
+    public static final String WITH_DEFAULT_ANALYZER = ""with_default_analyzer"";
 }
 ";
         }
